@@ -34,10 +34,10 @@ $(document).ready(function() {
 
     //var dnaStr = $("#dna").val()
 
-    console.log(instance);
+    // console.log(instance);
 
   //  KittyCore.createPromoKitty(dna, accounts(0));
-    instance.methods.createKitty(0, 0, 0, dnaStr, user).send({from: user, gas: 100000});
+    // instance.methods.createKitty(0, 0, 0, dnaStr, user).send({from: user, gas: 100000});
   })
 
   $("#generateKitty").click(generateKitty);
@@ -97,7 +97,7 @@ function generateCatCss(kittyDetails){
 
   let height = 130 + kittyDetails.bodyChoice * 4;
   let width = 110 + kittyDetails.bodyChoice;
-  let earRight = 6 + kittyDetails.bodyChoice;
+  let earRight = 5 + kittyDetails.bodyChoice;
 
   $("#body").css('height', height);
   $("#body").css('width', width);
@@ -131,36 +131,32 @@ function generateCatCss(kittyDetails){
     $("#tummy").css('margin-top', "20%");
   }
 
-
-
 //  Set the kitty color
-
 // First option
-  $("#body").css('background-color', "#" + (parseInt("E9CBA7", 16) + kittyDetails.ColorChoice).toString(16) + "FF");
-  $("#mask").css('background-color', "#" + (parseInt("E9CBA7", 16) + kittyDetails.ColorChoice).toString(16) + "FF");
-  $(".ear").css('background-color', "#" + (parseInt("E9CBA7", 16) + kittyDetails.ColorChoice).toString(16) + "FF");
+   var mycolor =  (parseInt("E9CBA7", 16) + kittyDetails.ColorChoice).toString(16) 
+  $("#body").css('background-color', "#" + mycolor + "FF");
+  $("#mask").css('background-color', "#" + mycolor + "FF");
+  $(".ear").css('background-color', "#" + mycolor + "FF");
 
 // Check with or without the filter but i think the filter is really cool
   $("#body").css('filter', "hue-rotate(" + kittyDetails.ColorChoice + "deg)");
-
-
 
 // Set the kitty tail
 
   // Border 15px
   if (kittyDetails.tailChoice === 1){
-    $("#tail-end").css('border-radius', "1%");
-    $("#tail-end").css('margin-left', "125px");
-    $("#tail-end").css('height', "13px");
-    $("#tail-end").css('width', "13px");
+    // $("#tail-end").css('border-radius', "1%");
+    // $("#tail-end").css('margin-left', "125px");
+    // $("#tail-end").css('height', "13px");
+    // $("#tail-end").css('width', "13px");
     $("#tail").css('border-top-width', "10px");
     $("#tail").css('border-left-width', "10px");
     $("#tail").css('border-right-width', "10px");
   } else if (kittyDetails.tailChoice === 2){
-    $("#tail-end").css('border-radius', "50%");
-    $("#tail-end").css('margin-left', "130px");
-    $("#tail-end").css('height', "17px");
-    $("#tail-end").css('width', "17px");
+    // $("#tail-end").css('border-radius', "50%");
+    // $("#tail-end").css('margin-left', "130px");
+    // $("#tail-end").css('height', "17px");
+    // $("#tail-end").css('width', "17px");
     $("#tail").css('border-top-width', "15px");
     $("#tail").css('border-left-width', "15px");
     $("#tail").css('border-right-width', "15px");
@@ -168,18 +164,16 @@ function generateCatCss(kittyDetails){
 
     // Tail third option TODO
 
-    $("#tail-end").css('border-radius', "1%");
-    $("#tail-end").css('margin-left', "125px");
-    $("#tail-end").css('height', "13px");
-    $("#tail-end").css('width', "13px");
+    // $("#tail-end").css('border-radius', "1%");
+    // $("#tail-end").css('margin-left', "125px");
+    // $("#tail-end").css('height', "13px");
+    // $("#tail-end").css('width', "13px");
     $("#tail").css('border-top-width', "10px");
     $("#tail").css('border-left-width', "10px");
     $("#tail").css('border-right-width', "10px");
   }
-
 // Set the kitty tongue
   // TODO
-
 }
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
@@ -188,4 +182,8 @@ function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("#kittyMum").text(mumId);
   $("#kittyDad").text(dadId);
   $("#kittyGenes").text(genes);
+}
+
+function log(str){
+  return  console.log(str)
 }

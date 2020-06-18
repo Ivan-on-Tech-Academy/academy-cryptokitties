@@ -1,21 +1,30 @@
 <html>
-<head>
-    <link rel="stylesheet" href="index.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Academi kitties </title>
-    <link href="css/bootstrap-slider.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./web3.min.js"></script>
-    <script type="text/javascript" src="./abi.js"></script>
-    <script type="text/javascript" src="./index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<head>
+  <link rel="stylesheet" href="index.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Academy kitties </title>
+  
+  <script src="assets/js/jquery-3.4.1.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <script src="assets/bootstrap/js/popper.js"></script>  
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <!-- Style  -->
+  <link rel="stylesheet" href="assets/css/colors.css">
+  <link rel="stylesheet" href="assets/css/cat.css">  
+  <link href="assets/fontawesome/css/all.css" rel="stylesheet">
+
+  <script type="text/javascript" src="./web3.min.js"></script>
+  <script type="text/javascript" src="./abi.js"></script>
+  <script type="text/javascript" src="./index.js"></script>
+
 
 </head>
+
 <body id="room">
   <div id="container">
     <div id="tail"></div>
@@ -87,66 +96,69 @@
     <p id="kittyDad"></p>
     <p id="kittyGenes"></p>
   </div>
-    <form>
+  <form>
     <div class="form-group">
       <label for="formControlRange">Head Gene</label> <br>
       <input type="range" class="form-control-range" id="formControlRange">
     </div>
-  <div class="form-group">
-    <label for="formControlRange">Eye Gene</label> <br>
-    <input type="range" class="form-control-range" id="formControlRange">
-  </div>
-</form>
-<form>
-<div class="form-group">
-  <label for="formControlRange">Body Gene</label> <br>
-  <input type="range" class="form-control-range" id="formControlRange">
-</div>
-</form>
-<form>
-<div class="form-group">
-  <label for="formControlRange">Tail Gene</label> <br>
-  <input type="range" class="form-control-range" id="formControlRange">
-</div>
-</form>
-<form>
-<div class="form-group">
-  <label for="formControlRange">Tounge Gene</label> <br>
-  <input type="range" class="form-control-range" id="formControlRange">
-</div>
-</form>
-<form>
-<div class="slider slider-horizontal" id="ex1Slider">
-  <div class="slider-track">
-    <div class="slider-track-low" style="left: 0px; width: 0%;">
+    <div class="form-group">
+      <label for="formControlRange">Eye Gene</label> <br>
+      <input type="range" class="form-control-range" id="formControlRange">
     </div>
-    <div class="slider-selection" style="left: 0%; width: 70%;">
+  </form>
+  <form>
+    <div class="form-group">
+      <label for="formControlRange">Body Gene</label> <br>
+      <input type="range" class="form-control-range" id="formControlRange">
     </div>
-    <div class="slider-track-high" style="right: 0px; width: 30%;">
+  </form>
+  <form>
+    <div class="form-group">
+      <label for="formControlRange">Tail Gene</label> <br>
+      <input type="range" class="form-control-range" id="formControlRange">
     </div>
-  </div>
-  <div class="tooltip tooltip-main bs-tooltip-top show" role="presentation" style="left: 70%;">
-    <div class="arrow">
+  </form>
+  <form>
+    <div class="form-group">
+      <label for="formControlRange">Tounge Gene</label> <br>
+      <input type="range" class="form-control-range" id="formControlRange">
     </div>
-    <div class="tooltip-inner">14</div>
-  </div>
-  <div class="tooltip tooltip-min bs-tooltip-top" role="presentation" style="display: none;">
-    <div class="arrow">
+  </form>
+  <form>
+    <div class="slider slider-horizontal" id="ex1Slider">
+      <div class="slider-track">
+        <div class="slider-track-low" style="left: 0px; width: 0%;">
+        </div>
+        <div class="slider-selection" style="left: 0%; width: 70%;">
+        </div>
+        <div class="slider-track-high" style="right: 0px; width: 30%;">
+        </div>
+      </div>
+      <div class="tooltip tooltip-main bs-tooltip-top show" role="presentation" style="left: 70%;">
+        <div class="arrow">
+        </div>
+        <div class="tooltip-inner">14</div>
+      </div>
+      <div class="tooltip tooltip-min bs-tooltip-top" role="presentation" style="display: none;">
+        <div class="arrow">
+        </div>
+        <div class="tooltip-inner">
+        </div>
+      </div>
+      <div class="tooltip tooltip-max bs-tooltip-top" role="presentation" style="display: none;">
+        <div class="arrow">
+        </div>
+        <div class="tooltip-inner">
+        </div>
+      </div>
+      <div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="0" aria-valuemax="20"
+        aria-valuenow="14" tabindex="0" style="left: 70%;">
+      </div>
+      <div class="slider-handle max-slider-handle round hide" role="slider" aria-valuemin="0" aria-valuemax="20"
+        aria-valuenow="0" tabindex="0" style="left: 0%;">
+      </div>
     </div>
-    <div class="tooltip-inner">
-    </div>
-  </div>
-  <div class="tooltip tooltip-max bs-tooltip-top" role="presentation" style="display: none;">
-    <div class="arrow">
-    </div>
-    <div class="tooltip-inner">
-    </div>
-  </div>
-  <div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="0" aria-valuemax="20" aria-valuenow="14" tabindex="0" style="left: 70%;">
-  </div>
-  <div class="slider-handle max-slider-handle round hide" role="slider" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" tabindex="0" style="left: 0%;">
-  </div>
-</div>
-</form>
-  </body>
+  </form>
+</body>
+
 </html>

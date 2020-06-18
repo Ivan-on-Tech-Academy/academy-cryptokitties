@@ -54,7 +54,7 @@ module.exports = {
         new HDWalletProvider(mnemonicDev, "http://127.0.0.1:7545"),
         network_id: "*" // Any network (default: none)
     },
-    geth: {
+    ganache: {
       provider: () =>
         new HDWalletProvider(mnemonicDev, "http://127.0.0.1:8545"),
       network_id: "*"
@@ -73,7 +73,7 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     ropsten: {
-       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/6905d95e772246e8a394ea1484d4f311`),
+       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/<Your key here>`),
        network_id: 3,       // Ropsten's id
        gas: 5500000,        // Ropsten has a lower block limit than mainnet
        confirmations: 2,    // # of confs to wait between deployments. (default: 0)
