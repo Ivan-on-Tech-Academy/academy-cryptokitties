@@ -2,6 +2,15 @@
 
 ## Starter kit
 
+### install the dependencies
+
+You will also have to create a .secret files to deploy the contract on the testnet later
+
+```
+npm i
+touch .secret
+```
+
 ### start your local ganache
 
 ```
@@ -11,7 +20,7 @@ ganache-cli --port 8545 --accounts 5  --mnemonic 'gesture rather obey video awak
 ### migrate the main contract to your local node
 
 ```
-truffle migrate --network geth
+truffle migrate --network ganache
 ```
 
 ### run your local server
