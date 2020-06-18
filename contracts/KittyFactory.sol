@@ -25,16 +25,15 @@ contract KittyFactory {
         uint32 dadId;
 
         /*
-        *   Store the dad id if the mum is virgin this value is 0
+        *   Store the dad iD to a futur mum.
         */
-        uint32 birthCertificatId;
+        uint32 futurDadId;
 
         uint16 cooldownIndex;
 
         uint16 generation;
     }
 
-    /*** CONSTANTS ***/
 
     uint32[7] public cooldowns = [
         uint32(1 minutes),
@@ -46,17 +45,13 @@ contract KittyFactory {
         uint32(2 hours)
     ];
 
-    // An approximation of currently how many seconds are in between blocks.
-    uint256 public secondsPerBlock = 15;
-
-
     Kitty[] kitties;
 
     mapping (uint256 => address) public kittyIndexToOwner;
     mapping (address => uint256) ownershipTokenCount;
 
 
-    function createKitty(
+    function _createKitty(
         uint256 _mumId,
         uint256 _dadId,
         uint256 _generation,
@@ -80,10 +75,11 @@ contract KittyFactory {
             reproductionCd: 0,
             mumId: uint32(_mumId),
             dadId: uint32(_dadId),
-            birthCertificatId: 0,
+            futurDadId: 0,
             cooldownIndex: cooldownIndex,
             generation: uint16(_generation)
         });
+
         uint256 newKittenId = kitties.push(_kitty) - 1;
 
         // It's probably never going to happen, 4 billion cats is A LOT, but
@@ -99,6 +95,24 @@ contract KittyFactory {
             _kitty.genes
         );
 
+        // This will assign ownership, and also emit the Transfer event as
+        // per ERC721 draft
+        _transfer(0, _owner, newKittenId);
+
         return newKittenId;
+    }
+
+    function _transfer(address _from, address _to, uint256 _tokenId) internal {
+        // Since the number of kittens is capped to 2^32 we can't overflow this
+        ownershipTokenCount[_to]++;
+        // transfer ownership
+        kittyIndexToOwner[_tokenId] = _to;
+
+        if (_from != address(0)) {
+            ownershipTokenCount[_from]--;
+        }
+
+        // Emit the transfer event.
+        emit Transfer(_from, _to, _tokenId);
     }
 }
