@@ -1,5 +1,5 @@
-const KittyFactory = artifacts.require("./KittyFactory");
+const KittyCore = artifacts.require("./KittyCore");
 
 module.exports = function(deployer) {
-  deployer.deploy(KittyFactory);
+  deployer.deploy(KittyCore);
 };
