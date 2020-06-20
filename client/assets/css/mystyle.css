@@ -5,6 +5,7 @@
 
 html {
   overflow-x: hidden;
+  letter-spacing: 1px;
 }
 
 .abs-center {
@@ -274,7 +275,7 @@ th {
 }
 
 .light-b-shadow {
-  box-shadow: 0px 5px 7px 0px #cdcdcd;
+  box-shadow: 0px 5px 7px 0px #444444;
 }
 
 /*BORDER*/
