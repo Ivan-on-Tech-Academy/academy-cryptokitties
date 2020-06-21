@@ -31,14 +31,13 @@ $(document).ready(function() {
     })
     .on('error', console.error);
   });
- 
-  $("#createKitty").click(function(e) {
-
-    var dnaStr = getDna()
-    instance.methods.createKittyGen0(dnaStr).send({from: user, gas: 100000});
-  })
 
 });
+
+function createKitty(){  
+    var dnaStr = getDna()
+    instance.methods.createKittyGen0(dnaStr).send({from: user, gas: 100000});
+}
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("kittytable").removeClass('hidden')
