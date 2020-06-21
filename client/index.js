@@ -3,9 +3,11 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
+var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
+
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){
-    instance = new web3.eth.Contract(abi, "0x8c13AFB7815f10A8333955854E6ec7503eD841B7", {from: accounts[0]});
+    instance = new web3.eth.Contract(abi, contract, {from: accounts[0]});
     user = accounts[0];
 
 /* 
@@ -35,9 +37,34 @@ $(document).ready(function() {
 });
 
 function createKitty(){  
-    var dnaStr = getDna()
-    instance.methods.createKittyGen0(dnaStr).send();
+    var dnaStr = getDna();
+    let res;
+    try {
+      res = instance.methods.createKittyGen0(dnaStr).send();
+    } catch(err){
+      console.log(err);
+    }
 }
+
+
+async function getKitties(){  
+
+//    instance.methods.getKittyByOwner(user);
+  let arrayId;
+  let kitty;
+  try{
+    arrayId = await instance.methods.getKittyByOwner(contract).call();
+  } catch(err){
+    console.log(err);
+  }
+  for (i = 0; i < arrayId.length; i++){
+    kitty = await instance.methods.getKitty(arrayId[i]).call();
+    console.log(kitty);
+  }
+  console.log(arrayId);
+
+}
+
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("kittytable").removeClass('hidden')
