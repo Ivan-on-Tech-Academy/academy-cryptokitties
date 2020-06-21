@@ -5,7 +5,7 @@ var dnaStr = "457896541299";
 
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){
-    instance = new web3.eth.Contract(abi, "0x58A21f7aA3D9D83D0BD8D4aDF589626D13b94b45", {from: accounts[0]});
+    instance = new web3.eth.Contract(abi, "0x8c13AFB7815f10A8333955854E6ec7503eD841B7", {from: accounts[0]});
     user = accounts[0];
 
 /* 
@@ -31,14 +31,13 @@ $(document).ready(function() {
     })
     .on('error', console.error);
   });
- 
-  $("#createKitty").click(function(e) {
-
-    var dnaStr = getDna()
-    instance.methods.createKittyGen0(dnaStr).send({from: user, gas: 100000});
-  })
 
 });
+
+function createKitty(){  
+    var dnaStr = getDna()
+    instance.methods.createKittyGen0(dnaStr).send();
+}
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("kittytable").removeClass('hidden')
