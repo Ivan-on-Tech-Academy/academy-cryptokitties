@@ -22,7 +22,12 @@ $(document).ready(function() {
       let mumId = event.returnValues.mumId;
       let dadId = event.returnValues.dadId;
       let genes = event.returnValues.genes
-      displayKittyInfo(owner, kittyId, mumId, dadId, genes);
+      $("#kittyCreation").css("display", "block");
+      $("#kittyCreation").text("owner:" + owner
+                            +" kittyId:" + kittyId
+                            +" mumId:" + mumId
+                            +" dadId:" + dadId
+                            +" genes:" + genes)
     })
     .on('error', console.error);
   });
@@ -30,25 +35,10 @@ $(document).ready(function() {
   $("#createKitty").click(function(e) {
 
     var dnaStr = getDna()
-
     instance.methods.createKittyGen0(dnaStr).send({from: user, gas: 100000});
   })
 
-  $("#generateKitty").click(generateKitty);
-
 });
-
-// take the Kitty dna, and update our image
-function generateKitty() {
-
-  dnaStr = String(Math.floor(Math.random()*1E16))  
-
-  let kittyDetails = {    
-    ownerAddr: user,
-    KittyDescription: "This is my first kitty",
-  }
-  generateCatCss(kittyDetails);
-}
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("kittytable").removeClass('hidden')
