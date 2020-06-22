@@ -1,9 +1,9 @@
 import "./utils/Ownable.sol";
-import "./KittyFactory.sol";
+import "./KittyOwnership.sol";
 
 pragma solidity ^0.5.0;
 
-contract KittyCore is Ownable, KittyFactory {
+contract KittyCore is Ownable, KittyOwnership {
 
   uint256 public constant CREATION_LIMIT_GEN0 = 10;
 
