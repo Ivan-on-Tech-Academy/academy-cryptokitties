@@ -30,6 +30,8 @@ contract KittyFactory {
   mapping (uint256 => address) public kittyIndexToOwner;
   mapping (address => uint256) ownershipTokenCount;
 
+  // Add a list of approved kitties, that are allowed to be transfered
+  mapping (uint256 => address) public kittyIndexToApproved;
 
   function _createKitty(
       uint256 _mumId,
@@ -81,6 +83,8 @@ contract KittyFactory {
 
     if (_from != address(0)) {
         ownershipTokenCount[_from]--;
+
+        delete kittyIndexToApproved[_tokenId];
     }
 
     // Emit the transfer event.
