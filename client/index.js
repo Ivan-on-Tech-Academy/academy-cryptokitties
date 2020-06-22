@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
+var contract = "0x90d766507da175D3d21a2B7592dD51E44F8612e0";
 
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){
@@ -52,9 +52,9 @@ function createKitty(){
 async function getKitties(){  
 
 //    instance.methods.getKittyByOwner(user);
-  let arrayId;
-  let kitty;
-  try{
+  var arrayId;
+  var kitty;
+  try{    
     arrayId = await instance.methods.getKittyByOwner(contract).call();
   } catch(err){
     console.log(err);
@@ -70,9 +70,4 @@ async function getKitties(){
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
   $("kittytable").removeClass('hidden')
-  $("#kittyOnwer").text(owner);
-  $("#kittyId").text(kittyId);
-  $("#kittyMum").text(mumId);
-  $("#kittyDad").text(dadId);
-  $("#kittyGenes").text(genes);
 }

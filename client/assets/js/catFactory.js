@@ -65,46 +65,39 @@ function eyeVariation(num) {
             $('#eyeName').html('Basic')            
             break
         case 2:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Chill')
-                return eyesType1()
-            })
+                return eyesType1()            
             break
         case 3:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Cute')
-                return eyesType2()
-            })
+                return eyesType2()            
             break
         case 4:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Watching')
-                return eyesType3()
-            })
+                return eyesType3()            
             break
         case 5:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Night eyes')
-                return eyesType4()
-            })
+                return eyesType4()            
             break
         case 6:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Wonder down')
-                return eyesType5()
-            })
+                return eyesType5()            
             break
         case 7:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Wonder up')
-                return eyesType6()
-            })
+                return eyesType6()            
             break
         case 8:
-            normalEyes().then(() => {
+            normalEyes()
                 $('#eyeName').html('Circle')
-                return eyesType7()
-            })
+                return eyesType7()            
             break
     }
 }
@@ -184,8 +177,8 @@ function animationVariation(num) {
 
 // **   Eyes **  //
 
-async function normalEyes() {
-    await $('.cat__eye').find('span').css('border', 'none')
+function normalEyes() {
+    $('.cat__eye').find('span').css('border', 'none')
 }
 
 //top
@@ -225,7 +218,7 @@ function eyesType7() {
 
 // ** Angles ** //
 
-async function normaldecoration() {
+function normaldecoration() {
     //Remove all style from other decorations
     //In this way we can also use normalDecoration() to reset the decoration style
     $('.cat__head-dots').css({ "transform": "rotate(0deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
@@ -235,69 +228,59 @@ async function normaldecoration() {
 
 //inverted
 function decorationType1() {
-    normaldecoration().then(() => {
+    normaldecoration()
         $('.cat__head-dots').css("transform", "rotate(180deg)")
         $('.cat__head-dots_first').css("transform", "rotate(0deg)")
         $('.cat__head-dots_second').css("transform", "rotate(0deg)")
-    })
-
 }
 
 //Twiss
 function decorationType2() {
-    normaldecoration().then(() => {
+    normaldecoration()
         $('.cat__head-dots').css("transform", "rotate(180deg)")
         $('.cat__head-dots_first').css("transform", "rotate(180deg)")
         $('.cat__head-dots_second').css("transform", "rotate(180deg)")
-    })
+ 
 
 }
 
 // ** Parterns **//
 // Unifrom partern
 function decorationType3() {
-    normaldecoration().then(() => {
-        $('.cat__head-dots, .cat__head-dots_first, .cat__head-dots_second').css({ "height": "40px", "width": "20px" })
-    })
-
+    normaldecoration()
+        $('.cat__head-dots, .cat__head-dots_first, .cat__head-dots_second').css({ "height": "40px", "width": "20px" })   
 }
 
 //Combination of 3 and 4
 function decorationType4() {
-    normaldecoration().then(() => {
-        $('.cat__head-dots, .cat__head-dots_first, .cat__head-dots_second').css({ "height": "40px", "width": "20px", "transform": "rotate(180deg)" })
-    })
-
+    normaldecoration()
+        $('.cat__head-dots, .cat__head-dots_first, .cat__head-dots_second').css({ "height": "40px", "width": "20px", "transform": "rotate(180deg)" })   
 }
 
 //Tribal decoration
 function decorationType5() {
-    normaldecoration().then(() => {
+    normaldecoration()
         $('.cat__head-dots').css({ "transform": "rotate(180deg)", "height": "50px", "border-radius": "50% 50% 50% 50%" })
         $('.cat__head-dots_first').css({ "transform": "rotate(35deg)", "height": "40px" })
-        $('.cat__head-dots_second').css({ "transform": "rotate(-35deg)", "height": "40px" })
-    })
-
+        $('.cat__head-dots_second').css({ "transform": "rotate(-35deg)", "height": "40px" })   
 }
 
 //Sides down
 function decorationType6() {
-    normaldecoration().then(() => {
+    normaldecoration()
         $('.cat__head-dots').css({ "transform": "rotate(180deg)", "height": "50px", "border-radius": "50% 50% 50% 50%" })
         $('.cat__head-dots_first').css({ "transform": "rotate(135deg)", "height": "45px", "top": "-25px" })
-        $('.cat__head-dots_second').css({ "transform": "rotate(-135deg)", "height": "45px", "top": "-25px" })
-    })
+        $('.cat__head-dots_second').css({ "transform": "rotate(-135deg)", "height": "45px", "top": "-25px" }) 
 
 }
 
 //Single dot decoration
 function decorationType7() {
-    normaldecoration().then(() => {
+    normaldecoration()
         var dots2 = $('.cat__head-dots_first')
         var dots3 = $('.cat__head-dots_second')
         dots2.css('height', '0px')
-        dots3.css('height', '0px')
-    })
+        dots3.css('height', '0px') 
 
 }
 
@@ -312,48 +295,47 @@ async function resetAnimation() {
 }
 
 function movingHead() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#head').addClass('movingHead')
         $('#leftEar').addClass('movingEarsLeft')
-        $('#rightEar').addClass('movingEarsRight')
-    })
+        $('#rightEar').addClass('movingEarsRight')    
 }
 
 function movingTail() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#tail').addClass('movingTail')
-    })
+    
 }
 
 //moving both ears
 function movingEars() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#leftEar').addClass('movingEarsLeft')
         $('#rightEar').addClass('movingEarsRight')
-    })
+    
 }
 
 // Single Ears
 
 function leftEar() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#leftEar').addClass('moving-Single-EarLeft')
-    })
+    
 }
 
 function rightEar() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#rightEar').addClass('moving-Single-EarRight')
-    })
+    
 }
 
 // Attentive Cat Ears animation
 
 function attentiveCat() {
-    resetAnimation().then(() => {
+    resetAnimation()
         $('#leftEar').addClass('attentionLeft')
         $('#rightEar').addClass('attentionRight')
-    })
+    
 }
 
 
