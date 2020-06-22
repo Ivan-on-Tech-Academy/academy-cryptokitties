@@ -1,0 +1,186 @@
+
+
+/* Moving head with ears together */
+.movingHead {
+    animation: moveHead 6s infinite;       
+}
+
+.movingEarsRight {
+    animation: moveEarsRight 6s infinite;       
+}
+
+.movingEarsLeft {
+    animation: moveEarsLeft 6s infinite;       
+}
+
+
+/* Single ears move */
+.moving-Single-EarRight {
+    animation: earRight 3s infinite;       
+}
+
+.moving-Single-EarLeft {
+    animation: earLeft 3s infinite;       
+}
+
+/* attentive cat anim */
+.attentionRight {
+    animation: earUpRight 6s infinite;       
+}
+
+.attentionLeft {
+    animation: earUpLeft 6s infinite;       
+}
+
+/* Tail movement */
+
+.movingTail {
+
+    animation: moveTail 2.5s infinite;       
+}
+
+@keyframes moveTail {
+    
+    0% {
+        transform: rotate(-45deg);
+    }
+     50% {
+        transform: rotate(-30deg);
+    }
+    100% {
+        transform: rotate(-45deg);
+    }
+}
+
+/* KeyFrames */
+@keyframes moveHead {
+    0%, 50% {
+        transform: rotate(0deg);
+    }
+
+    51%, 55% {
+        transform: rotate(5deg);
+    }
+
+    56%, 89% {
+        transform: rotate(0deg);
+    }    
+
+    90%, 98% {
+        transform: rotate(-5deg);
+    } 
+    
+    100% {
+        transform: rotate(0deg);
+    } 
+    
+  }
+
+  @keyframes moveEarsRight {
+    0%, 50% {
+        transform: rotate(170deg);
+    }
+
+    51%, 55% {
+        transform: rotate(175deg);
+    }
+
+    56%, 89% {
+        transform: rotate(170deg);
+    }    
+
+    90%, 98% {
+        transform: rotate(165deg);
+    } 
+    
+    100% {
+        transform: rotate(170deg);
+    } 
+    
+  }
+
+  @keyframes earRight {
+    0%, 50% {
+        transform: rotate(170deg);
+    }
+
+    51%, 55% {
+        transform: rotate(175deg);
+    }
+
+    56%, 100% {
+        transform: rotate(170deg);
+    }    
+  }
+
+  @keyframes earLeft {
+    0%, 50% {
+        transform: scale(-1, 1) rotate(170deg);
+    }
+
+    51%, 55% {
+        transform: scale(-1, 1) rotate(175deg);
+    }
+
+    56%, 100% {
+        transform: scale(-1, 1) rotate(170deg);
+    }      
+    
+  }
+
+  @keyframes earUpRight {
+    0%, 30% {
+        transform: rotate(170deg);        
+    }
+
+    31%, 89% {        
+        transform: rotate(160deg);
+    }
+
+    90%, 100% {
+        
+        transform: rotate(170deg);
+    }    
+
+  }
+
+  @keyframes earUpLeft {
+    0%, 30%  {
+        transform: scale(-1, 1) rotate(170deg);        
+    }
+    
+    31%, 89% {
+        transform: scale(-1, 1) rotate(160deg);        
+    }
+
+    90%, 100%  {
+        transform: scale(-1, 1) rotate(170deg);
+    }      
+    
+  }
+
+
+
+  
+  @keyframes moveEarsLeft {
+    0%, 50% {
+        transform: scale(-1, 1) rotate(170deg);
+    }
+
+    51%, 55% {
+        transform: scale(-1, 1) rotate(165deg);
+    }
+
+    56%, 89% {
+        transform: scale(-1, 1) rotate(170deg);
+    }    
+
+    90%, 98% {
+        transform: scale(-1, 1) rotate(180deg);
+    } 
+    
+    100% {
+        transform: scale(-1, 1) rotate(170deg);
+    } 
+    
+  }
