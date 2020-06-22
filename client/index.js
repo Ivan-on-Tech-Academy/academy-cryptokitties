@@ -5,8 +5,10 @@ var dnaStr = "457896541299";
 
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){
-    instance = new web3.eth.Contract(abi, "0x58A21f7aA3D9D83D0BD8D4aDF589626D13b94b45", {from: accounts[0]});
+    instance = new web3.eth.Contract(abi, "0x5b9a2Fd5FDCD66B531984E7Ddd44695dF283915F", {from: accounts[0]});
     user = accounts[0];
+
+    log(instance)
 
 /* 
 *   Listen for the `Birth` event, and update the UI
@@ -36,7 +38,7 @@ $(document).ready(function() {
 
 function createKitty(){  
     var dnaStr = getDna()
-    instance.methods.createKittyGen0(dnaStr).send({from: user, gas: 100000});
+    instance.methods.createKittyGen0(dnaStr).send();
 }
 
 function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
