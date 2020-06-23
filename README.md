@@ -43,7 +43,32 @@ This stage will contain the creation of the student frontend, a basic Factory sm
 ## stage 2
 
 The frontend will allow the student to create multiples gene 0 cats with a range slider, to select them individually.
-The smart contract will be improve to track cats ownership
+The smart contract will be improve to track cats ownership, transfert, transfertFrom.
+
+ERC 721.
+
+The following standard allows for the implementation of a standard API for NFTs within smart contracts. This standard provides basic functionality to track and transfer NFTs.
+
+A standard interface allows wallet/broker/auction applications to work with any NFT on Ethereum. We provide for simple ERC-721 smart contracts as well as contracts that track an arbitrarily large number of NFTs. Additional applications are discussed below.
+
+EIP
+https://eips.ethereum.org/EIPS/eip-721
+
+Help:
+https://docs.openzeppelin.com/contracts/2.x/api/token/erc721
+
+ERC 165
+
+ERC165’s solution is to define a standard for contracts to publish what interfaces they support, so that other contracts can follow the same standard to detect whether it supports certain interfaces, and only call the interface’s function if the interface is supported.
+
+
+EIP
+https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md
+Help:
+https://medium.com/coinmonks/ethereum-standard-erc165-explained-63b54ca0d273
+
+
+
 
 ## stage 3
 

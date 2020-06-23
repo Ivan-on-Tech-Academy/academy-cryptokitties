@@ -4,9 +4,33 @@ import "./KittyFactory.sol";
 
 contract KittyOwnership is KittyFactory{
 
+  string public constant name = "IvanKitties";
+  string public constant symbol = "CK";
+
   event Transfer(address from, address to, uint256 tokenId);
   event Approval(address owner, address approved, uint256 tokenId);
 
+  /*
+  *    We use the modulo of each function to set the interfaceId
+  */
+  bytes4 constant InterfaceSignature_ERC165 =
+      bytes4(keccak256('supportsInterface(bytes4)'));
+
+  bytes4 constant InterfaceSignature_ERC721 =
+      bytes4(keccak256('name()')) ^
+      bytes4(keccak256('symbol()')) ^
+      bytes4(keccak256('totalSupply()')) ^
+      bytes4(keccak256('balanceOf(address)')) ^
+      bytes4(keccak256('ownerOf(uint256)')) ^
+      bytes4(keccak256('approve(address,uint256)')) ^
+      bytes4(keccak256('transfer(address,uint256)')) ^
+      bytes4(keccak256('transferFrom(address,address,uint256)')) ^
+      bytes4(keccak256('tokensOfOwner(address)'));
+
+  function supportsInterface(bytes4 _interfaceID) external pure returns (bool)
+  {
+      return ((_interfaceID == InterfaceSignature_ERC165) || (_interfaceID == InterfaceSignature_ERC721));
+  }
 
   function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
       return kittyIndexToOwner[_tokenId] == _claimant;
@@ -49,13 +73,9 @@ contract KittyOwnership is KittyFactory{
   )
       external
   {
-      // Only an owner can grant transfer approval.
       require(_owns(msg.sender, _tokenId));
 
-      // Register the approval (replacing any previous approval).
       _approve(_tokenId, _to);
-
-      // Emit approval event.
       emit Approval(msg.sender, _to, _tokenId);
   }
 
@@ -65,16 +85,10 @@ contract KittyOwnership is KittyFactory{
   )
       external
   {
-      // Safety check to prevent against an unexpected 0x0 default.
       require(_to != address(0));
-
-      // Disallow transfers to this contract to prevent accidental misuse.
       require(_to != address(this));
-
-      // You can only send your own cat.
       require(_owns(msg.sender, _tokenId));
 
-      // Reassign ownership, clear pending approvals, emit Transfer event.
       _transfer(msg.sender, _to, _tokenId);
   }
 
@@ -85,16 +99,36 @@ contract KittyOwnership is KittyFactory{
   )
       external
   {
-      // Safety check to prevent against an unexpected 0x0 default.
       require(_to != address(0));
-      // Disallow transfers to this contract to prevent accidental misuse.
       require(_to != address(this));
-
-      // Check for approval and valid ownership
       require(_approvedFor(msg.sender, _tokenId));
       require(_owns(_from, _tokenId));
 
-      // Reassign ownership (also clears pending approvals and emits Transfer event).
       _transfer(_from, _to, _tokenId);
   }
+
+  function tokensOfOwner(address _owner) external view returns(uint256[] memory ownerTokens) {
+    uint256 tokenCount = balanceOf(_owner);
+
+    if (tokenCount == 0) {
+        return new uint256[](0);
+    } else {
+        uint256[] memory result = new uint256[](tokenCount);
+        uint256 totalCats = totalSupply();
+        uint256 resultIndex = 0;
+
+        uint256 catId;
+
+        for (catId = 1; catId <= totalCats; catId++) {
+            if (kittyIndexToOwner[catId] == _owner) {
+                result[resultIndex] = catId;
+                resultIndex++;
+            }
+        }
+
+        return result;
+    }
+  }
 }
+
+
