@@ -20,43 +20,9 @@
     <link rel="stylesheet" href="assets/css/frontend.css">
 </head>
 
-<body>
+<body id="body">
     <!-- Start menu -->
-    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-ligh p-4">
-        <div class="container">
-            <a class="navbar-brand" href="#"><b>Academy-Kitties</b></a>
-            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse collapse  justify-content-end" id="navbarsExampleDefault">
-
-                <div align="right">
-                    <ul class="navbar-nav mr-auto">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html"><b>Home</b></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><b>Catalogue</b></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="factory.html"><b>K-Factory</b></a>
-                        </li>
-
-                        <li class="nav-item">
-                            <button class="btn red-btn ml-4">Start</button>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-        </div>
-    </nav>
+  <div id="menu"></div>
     <!-- end menu -->
         <div class="animation-wrapper">
         <div class="particle particle-1"></div>
@@ -71,7 +37,7 @@
     </div>
         <div class="row">
             <div class="col-lg-4 catBox m-2 light-b-shadow">
-                <div class="cat">
+                <div class="cat" id="newCat">
 
                     <div class="cat__ear">
                         <div id="leftEar" class="cat__ear--left">
@@ -124,7 +90,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="dnaDiv" id="catDNA">
+                <div class="dnaBox" id="catDNA">
                     <b>
                         DNA:
                         <!-- Colors -->
@@ -225,19 +191,18 @@
         </div>
             
         </div>
+    </div>    
 
-
-
-    </div>
     <footer align="left">
         <p>Ivan on Tech Academy Bootcamp July 2020</p>
     </footer>
 
 
     <script src="assets/js/colors.js"></script>
-    <script src="assets/js/catSettings.js"></script>
-    <script src="assets/js/catFactory.js"></script>
+    <script src="assets/js/catFactory/catSettings.js"></script>
+    <script src="assets/js/catFactory/catFactory.js"></script>
     <script src="assets/js/helpers.js"></script>
+    <script src="assets/js/components.js"></script>
 
 </body>
 

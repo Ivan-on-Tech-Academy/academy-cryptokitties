@@ -12,9 +12,9 @@
     border-radius: 10px;
 }
 
-.dnaDiv {
+.dnaBox {
     position: absolute;
-    left:20px;
+    left:22%;
     bottom: 5px;
 
 }

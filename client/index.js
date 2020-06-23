@@ -3,15 +3,12 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x90d766507da175D3d21a2B7592dD51E44F8612e0";
+var contract = "0x1E17a6e3eA50c28b620a1Bca61C8F991ed08F350";
 
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){
     instance = new web3.eth.Contract(abi, contract, {from: accounts[0]});
     user = accounts[0];
-
-    log(instance)
-
 /* 
 *   Listen for the `Birth` event, and update the UI
 *   This event is generate in the KittyBase contract
@@ -49,6 +46,7 @@ function createKitty(){
 }
 
 
+
 async function getKitties(){  
 
 //    instance.methods.getKittyByOwner(user);
@@ -61,9 +59,9 @@ async function getKitties(){
   }
   for (i = 0; i < arrayId.length; i++){
     kitty = await instance.methods.getKitty(arrayId[i]).call();
-    console.log(kitty);
+    appendCat(kitty[0],i)
   }
-  console.log(arrayId);
+  console.log(kitty);
 
 }
 

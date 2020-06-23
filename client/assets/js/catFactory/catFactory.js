@@ -145,7 +145,7 @@ function decorationVariation(num) {
 //6 Animations 
 function animationVariation(num) {
     var specialnum = Math.floor(Math.random() * 10) 
-    $('#dnadanimation').html(num + specialnum)
+    $('#dnadanimation').html(num)
 
     switch (num) {
         case 1:

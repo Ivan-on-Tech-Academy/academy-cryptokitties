@@ -17,7 +17,7 @@ var defaultDNA = {
 
 // when page load
 $( document ).ready(function() {
-renderCat(defaultDNA)
+    renderCat(defaultDNA)
 });
 
 function defaultCat(){
