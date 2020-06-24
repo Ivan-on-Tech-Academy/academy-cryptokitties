@@ -28,7 +28,7 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
  const fs = require('fs');
  const mnemonic = fs.readFileSync(".secret").toString().trim();
 
-const mnemonicDev = "mountain mango ivory image attitude rebuild gorilla until canoe feed flat parrot";
+const mnemonicDev = "gesture rather obey video awake genuine patient base soon parrot upset lounge";
 
 module.exports = {
   /**

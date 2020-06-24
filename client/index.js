@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x1E17a6e3eA50c28b620a1Bca61C8F991ed08F350";
+var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
 
 $(document).ready(function() {
   window.ethereum.enable().then(function(accounts){

@@ -71,11 +71,11 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      external
+      public
   {
-      require(_owns(msg.sender, _tokenId));
+      require(_owns(_to, _tokenId));
 
-      _approve(_tokenId, _to);
+      _approve(_tokenId, msg.sender);
       emit Approval(msg.sender, _to, _tokenId);
   }
 
@@ -83,10 +83,9 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      external
+      public
   {
       require(_to != address(0));
-      require(_to != address(this));
       require(_owns(msg.sender, _tokenId));
 
       _transfer(msg.sender, _to, _tokenId);
@@ -97,17 +96,16 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      external
+      public
   {
       require(_to != address(0));
-      require(_to != address(this));
       require(_approvedFor(msg.sender, _tokenId));
       require(_owns(_from, _tokenId));
 
       _transfer(_from, _to, _tokenId);
   }
 
-  function tokensOfOwner(address _owner) external view returns(uint256[] memory ownerTokens) {
+  function tokensOfOwner(address _owner) public view returns(uint256[] memory ownerTokens) {
     uint256 tokenCount = balanceOf(_owner);
 
     if (tokenCount == 0) {
@@ -130,5 +128,3 @@ contract KittyOwnership is KittyFactory{
     }
   }
 }
-
-

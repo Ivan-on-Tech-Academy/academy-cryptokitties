@@ -40,7 +40,7 @@ contract KittyFactory {
       uint256 _genes,
       address _owner
   )
-      public
+      internal
       returns (uint)
   {
 
@@ -70,7 +70,6 @@ contract KittyFactory {
     // This will assign ownership, and also emit the Transfer event as
     // per ERC721 draft
     _transfer(address(0), _owner, newKittenId);
-
     return newKittenId;
   }
 
