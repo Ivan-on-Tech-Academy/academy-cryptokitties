@@ -11,6 +11,8 @@ contract KittyMarketPlace is KittyOwnership {
 
   mapping (uint256 => Offer) tokenIdToOffer;
 
+  event MarketTransaction(string TxType, address owner, uint256 tokenId);
+
   function getOffer(uint256 _tokenId)
       public
       view
@@ -37,6 +39,7 @@ contract KittyMarketPlace is KittyOwnership {
     */
     tokenIdToOffer[_tokenId].seller = msg.sender;
     tokenIdToOffer[_tokenId].price = _price;
+    emit MarketTransaction("Create offer", msg.sender, _tokenId);
   }
 
   function removeOffer(uint256 _tokenId)
@@ -45,6 +48,7 @@ contract KittyMarketPlace is KittyOwnership {
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
     delete tokenIdToOffer[_tokenId];
+    emit MarketTransaction("Remove offer", msg.sender, _tokenId);
   }
 
   function buyKitty(uint256 _tokenId)
@@ -58,6 +62,7 @@ contract KittyMarketPlace is KittyOwnership {
     _approve(_tokenId, msg.sender);
     transferFrom(offer.seller, msg.sender, _tokenId);
     offer.seller.transfer(msg.value);
+    emit MarketTransaction("Buy", msg.sender, _tokenId);
   }
  
 
