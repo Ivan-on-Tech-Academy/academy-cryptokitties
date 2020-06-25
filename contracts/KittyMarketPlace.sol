@@ -43,7 +43,7 @@ contract KittyMarketPlace is KittyOwnership {
     public
   {
     Offer memory offer = tokenIdToOffer[_tokenId];
-    require(offer.seller == msg.sender, "You should own the kitty to be able to set a price");
+    require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
     delete tokenIdToOffer[_tokenId];
   }
 
