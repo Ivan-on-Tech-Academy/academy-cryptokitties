@@ -53,7 +53,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
       ( uint256 Mumgenes,,,,uint256 MumGeneration ) = getKitty(_mumId);
 
       uint256 geneKid;
-      uint8 [8] memory geneArray;
+      uint8[8] memory geneArray;
       uint8 index=0;
       uint8 random = uint8(now % 255);
 
@@ -74,7 +74,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
       for (uint i = 0 ; i < 8; i++ ){
         geneKid += geneArray[i];
         if(i != 7){
-            geneKid *= 100;            
+            geneKid *= 100;
         }
       }
 
