@@ -15,6 +15,45 @@ contract KittyCore is Ownable, KittyMarketPlace {
     _createKitty(0, 0, 0, uint256(-1), address(0));
   }
 
+  function Breeding(uint256 _dadId, uint256 _mumId) public {
+      require(_owns(msg.sender, _dadId), "The user doesn't own the token");
+      require(_owns(msg.sender, _mumId), "The user doesn't own the token");
+
+      ( uint256 Dadgenes,,,,uint256 DadGeneration ) = getKitty(_dadId);
+
+      ( uint256 Mumgenes,,,,uint256 MumGeneration ) = getKitty(_mumId);
+
+      uint256 i;
+      uint256 geneKid;
+
+      for(i=1; i <= 128; i=i*2){
+          if(now % 255 & i != 0){
+              geneKid += Mumgenes % 100;
+          } else {
+              geneKid +=  Dadgenes % 100;
+          }
+          Mumgenes /= 100;
+          Dadgenes /= 100;
+          if (i < 128){
+              geneKid *= 100;
+          }
+      }
+
+      uint256 kidGen = 0;
+      if (DadGeneration < MumGeneration){
+        kidGen = MumGeneration + 1;
+        kidGen /= 2;
+      } else if (DadGeneration > MumGeneration){
+        kidGen = DadGeneration + 1;
+        kidGen /= 2;
+      } else{
+        kidGen = MumGeneration;
+      }
+
+      _createKitty(_mumId, _dadId, kidGen, geneKid, msg.sender);
+  }
+
+
   function createKittyGen0(uint256 _genes) public onlyOwner {
     require(gen0Counter < CREATION_LIMIT_GEN0);
 
@@ -26,7 +65,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
   }
 
   function getKitty(uint256 _id)
-    external
+    public
     view
     returns (
     uint256 genes,
@@ -36,6 +75,8 @@ contract KittyCore is Ownable, KittyMarketPlace {
     uint256 generation
   ) {
     Kitty storage kitty = kitties[_id];
+
+    require(kitty.birthTime > 0, "the kitty doesn't exist");
 
     birthTime = uint256(kitty.birthTime);
     mumId = uint256(kitty.mumId);

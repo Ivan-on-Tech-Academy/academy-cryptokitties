@@ -30,7 +30,6 @@ contract KittyMarketPlace is KittyOwnership {
 
   function setOffer(uint256 _price, uint256 _tokenId)
     public
-    payable
   {
     /*
     *   We give the contract the ability to transfer kitties
