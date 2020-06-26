@@ -3,12 +3,17 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x5a8665AbbDe3986687494176e22d38B169EA1eab";
-var contractOwner = "0x2B522cABE9950D1153c26C1b399B293CaA99FcF9";
+var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
+var contractOwner;
 
 $(document).ready(function () {
   window.ethereum.enable().then(function (accounts) {
     instance = new web3.eth.Contract(abi, contract, { from: accounts[0] });
+    console.log(instance);
+    instance.methods.owner().call().then( test =>{
+      contractOwner = test;
+      console.log(contractOwner);
+    });
     user = accounts[0];
     /* 
     *   Listen for the `Birth` event, and update the UI
