@@ -79,7 +79,7 @@ async function kittyByOwner(address) {
 
   let res;
   try {
-    res = await instance.methods.getKittyByOwner(address).call();
+    res = await instance.methods.tokensOfOwner(address).call();
   } catch (err) {
     console.log(err);
   }
@@ -87,7 +87,7 @@ async function kittyByOwner(address) {
 
 //Gen 0 cats for sale
 async function contractCatalog() {
-  var arrayId = await instance.methods.getKittyByOwner(contractOwner).call();
+  var arrayId = await instance.methods.tokensOfOwner(contractOwner).call();
   for (i = 0; i < arrayId.length; i++) {
     appendKitty(arrayId[i])
   }
@@ -95,7 +95,7 @@ async function contractCatalog() {
 
 //Get kittues of a current address
 async function myKitties() {
-  var arrayId = await instance.methods.getKittyByOwner(user).call();
+  var arrayId = await instance.methods.tokensOfOwner(user).call();
   for (i = 0; i < arrayId.length; i++) {
     appendKitty(arrayId[i])
   }
@@ -104,7 +104,7 @@ async function myKitties() {
 //Get kittues for breeding that are not selected
 async function breedKitties(gender) {
 
-  var arrayId = await instance.methods.getKittyByOwner(user).call();
+  var arrayId = await instance.methods.tokensOfOwner(user).call();
   for (i = 0; i < arrayId.length; i++) {
     appendBreed(arrayId[i],gender)
   }
