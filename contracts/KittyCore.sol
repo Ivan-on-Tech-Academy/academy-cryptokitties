@@ -43,7 +43,6 @@ contract KittyCore is Ownable, KittyMarketPlace {
 *       mum - mum - dad -dad -mum - mum - dad - mum
 *
 */
-
   function Breeding(uint256 _dadId, uint256 _mumId) public {
       require(_owns(msg.sender, _dadId), "The user doesn't own the token");
       require(_owns(msg.sender, _mumId), "The user doesn't own the token");
@@ -53,11 +52,12 @@ contract KittyCore is Ownable, KittyMarketPlace {
       ( uint256 Mumgenes,,,,uint256 MumGeneration ) = getKitty(_mumId);
 
       uint256 geneKid;
-      uint8[8] memory geneArray;
-      uint8 index=0;
+      uint256 [8] memory geneArray;
+      uint256 index = 7;
       uint8 random = uint8(now % 255);
-
-      for(uint i=1; i <= 128; i=i*2){
+      uint256 i = 0;
+      
+      for(i = 1; i <= 128; i=i*2){
 
           /* We are */
           if(random & i != 0){
@@ -71,7 +71,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
       }
 
       /* We reverse the DNa in the right order */
-      for (uint i = 0 ; i < 8; i++ ){
+      for (i = 0 ; i < 8; i++ ){
         geneKid += geneArray[i];
         if(i != 7){
             geneKid *= 100;
