@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
+var contract = "0x6624B9c696fa724B94B7a4697703E317E104067f";
 var contractOwner;
 
 $(document).ready(function () {
@@ -119,6 +119,16 @@ async function appendBreed(id,gender) {
   var kitty = await instance.methods.getKitty(id).call()  
   breedAppend(kitty[0], id, kitty['generation'],gender)
 }
+
+//Appending cats to breed selection
+async function breed(dadId,mumId) {
+  var newKitty = await instance.methods.Breeding(dadId,mumId).send()  
+  log(newKitty)
+  setTimeout(()=>{
+    go_to('myCats.html')
+  },2000)
+}
+
 
 //Appending cats for catalog
 async function appendKitty(id) {

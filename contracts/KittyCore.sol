@@ -53,12 +53,11 @@ contract KittyCore is Ownable, KittyMarketPlace {
       ( uint256 Mumgenes,,,,uint256 MumGeneration ) = getKitty(_mumId);
 
       uint256 geneKid;
-      uint256 i;
       uint8 [8] memory geneArray;
       uint8 index=0;
       uint8 random = uint8(now % 255);
 
-      for(i=1; i <= 128; i=i*2){
+      for(uint i=1; i <= 128; i=i*2){
 
           /* We are */
           if(random & i != 0){
@@ -68,13 +67,15 @@ contract KittyCore is Ownable, KittyMarketPlace {
           }
           Mumgenes /= 100;
           Dadgenes /= 100;
-        index += 1;
+        index -= 1;
       }
 
       /* We reverse the DNa in the right order */
-      for ( i = 7 ; i == 0; i-- ){
+      for (uint i = 0 ; i < 8; i++ ){
         geneKid += geneArray[i];
-        geneKid *= 100;
+        if(i != 7){
+            geneKid *= 100;            
+        }
       }
 
       uint256 kidGen = 0;
