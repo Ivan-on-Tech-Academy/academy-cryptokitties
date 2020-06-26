@@ -70,6 +70,10 @@ contract KittyCore is Ownable, KittyMarketPlace {
         index -= 1;
       }
 
+      /* Add a random parameter in a random place */
+      uint8 newGeneIndex =  random % 7;
+      geneArray[newGeneIndex] = random % 99;
+
       /* We reverse the DNa in the right order */
       for (i = 0 ; i < 8; i++ ){
         geneKid += geneArray[i];
