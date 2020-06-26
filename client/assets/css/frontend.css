@@ -33,7 +33,19 @@
     background-position:center;
 }
 
+.catHeader {
+    height: 45vh;
+    padding-top: 105px;
+    margin-top: 11vh;
+    border-radius: 8px;
+    margin-left: 1%;
+    margin-right: 1%;    
+    background: #607d8b;     
+}
 
+#singleCat {
+    padding-left: 22vw;
+}
 
 .navbar-brand {
     font-weight: 700;
@@ -42,6 +54,7 @@
 .nav-link {
     padding: 17px 55px;
     margin-right: 25px;    
+    white-space: nowrap;
 }
 
 .nav-link b {
@@ -76,6 +89,17 @@
 .middleBox {
     margin-top: 80px;
     margin-bottom: 120px;
+}
+
+.breedBox {
+    margin-top: 15vh;
+    margin-bottom: 120px;
+}
+
+.breedSelect {
+    margin-bottom: 50px;
+    min-height: 5vh;
+    padding-left: 5vw;
 }
 
 footer {

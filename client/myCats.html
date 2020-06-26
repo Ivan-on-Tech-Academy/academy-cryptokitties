@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/css/colors.css">
     <link rel="stylesheet" href="assets/css/frontend.css">
     <!-- Cats -->
-    <link rel="stylesheet" href="assets/css/animations.css">   
+    <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/cats.css">
 
 </head>
@@ -31,6 +31,8 @@
     <!-- End menu -->
     <div class="animation-wrapper">
         <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
     </div>
 
 
@@ -38,13 +40,14 @@
 
         <div class="container">
 
-            <h2 class="menu-title">Catalogue</h2>
+            <h2 class="menu-title">My Kitties</span></h2>
 
         </div>
     </div>
     
-
-    <div class="container middleBox">
+    <div class="container p-3">
+        <button class="btn red-btn mb-3 mt-3" onclick="go_to('breed.html')">Breed </button>
+        <br>
         <div class="row" id="catsDiv">
 
         </div>
@@ -55,16 +58,17 @@
         <p>Ivan on Tech Academy Bootcamp July 2020</p>
     </footer>
 
-</body>
+    <script>
+        // when page load create the catalog
+        $(document).ready(function () {
+            setTimeout(() => {
+                myKitties()
+            }, 1000)
+        });
+    </script>
 
-<script>
-    // when page load create the catalog
-$(document).ready(function () {
-    setTimeout(() => {
-        contractCatalog()
-    }, 1000)
-});
-</script>
+
+</body>
 
 <script src="assets/js/colors.js"></script>
 <script src="assets/js/catalogue/buildCat.js"></script>

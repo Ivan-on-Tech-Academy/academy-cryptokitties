@@ -1,0 +1,108 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy kitties </title>
+
+
+    <script type="text/javascript" src="assets/js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <script src="assets/bootstrap/js/popper.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+
+    <link rel="stylesheet" href="assets/css/mystyle.css">
+    <link rel="stylesheet" href="assets/css/colors.css">
+    <link rel="stylesheet" href="assets/css/frontend.css">
+    <!-- Cats -->
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/cats.css">
+
+</head>
+
+<body cz-shortcut-listen="true">
+
+    <!-- Start menu -->
+    <div id="menu"></div>>
+    <!-- End menu -->
+
+    <div class="container breedBox" align="center">
+        <h2 class="mb-5">Cats breeding</h2>
+
+        <div class="row" id="breedDiv">
+
+            <div class="col-lg-6">
+                <p><b>Dame</b></p>
+                <p>This kitty will be preggers</p>
+                <div class="featureBox pointer" data-toggle="modal" data-target="#catSelection">
+                    <div id="Dame" data-catid="0" onclick="breedKitties(this.id)" align="left">
+                        <div align="center">
+                            <div class="egg">
+
+                            </div>
+
+                            <h4>Select a cat as Dame</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="catDNADame"></div>
+            </div>
+            <div class="col-lg-6">
+                <p><b>Sire</b></p>
+                <p>This kitty will be the Sire</p>
+                <div class="featureBox pointer" data-toggle="modal" data-target="#catSelection">
+                    <div id="Sire" data-catid="0" onclick="breedKitties(this.id)" align="left">
+                        <div align="center">
+                            <div class="egg">
+
+                            </div>
+
+                            <h4>Select a cat as Sire</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="catDNASire"></div>
+            </div>
+        </div>
+        <button class="btn red-btn mt-5">Ok, give them some privacy</button>
+    </div>
+
+    <!-- Cats modal box -->
+    <div class="modal" id="catSelection" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">My kitties</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Select one of your Kitties.</p>
+                    <div class="row" id="catsDiv"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer align="left">
+        <p>Ivan on Tech Academy Bootcamp July 2020</p>
+    </footer>
+
+</body>
+
+<script src="assets/js/colors.js"></script>
+<script src="assets/js/catalogue/buildCat.js"></script>
+<script src="assets/js/catalogue/showCats.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/helpers.js"></script>
+
+</html>

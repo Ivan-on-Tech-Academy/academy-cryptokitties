@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/css/colors.css">
     <link rel="stylesheet" href="assets/css/frontend.css">
     <!-- Cats -->
-    <link rel="stylesheet" href="assets/css/animations.css">   
+    <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/cats.css">
 
 </head>
@@ -32,22 +32,27 @@
     <div class="animation-wrapper">
         <div class="particle particle-1"></div>
     </div>
-
-
-    <div class="header" align="center">
+    <div class="catHeader">
 
         <div class="container">
+            <div id="singleCat">
 
-            <h2 class="menu-title">Catalogue</h2>
+            </div>
 
         </div>
     </div>
-    
 
-    <div class="container middleBox">
-        <div class="row" id="catsDiv">
-
+    <div class="container middleBox mt-5">
+        <div id="catDNA" align="center"></div>
+        <br>
+        <div class="hidden" align="center" id="buyBox">
+            <div class="btn-group">
+                <button class="btn btn-light btn-lg light-b-shadow" id="buyBtn"><b>Buy me</b></button>
+                <button class="btn btn-light btn-lg ml-2 light-b-shadow" id="priceBtn"></button>
+            </div>
         </div>
+        <br>
+        <div id="cattributes"></div>
 
     </div>
 
@@ -57,13 +62,14 @@
 
 </body>
 
+
 <script>
-    // when page load create the catalog
-$(document).ready(function () {
-    setTimeout(() => {
-        contractCatalog()
-    }, 1000)
-});
+    // when page load fetch the cat
+    $(document).ready(function () {
+        setTimeout(() => {
+            singleKitty()
+        }, 1000)
+    });
 </script>
 
 <script src="assets/js/colors.js"></script>

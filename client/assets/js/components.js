@@ -27,6 +27,12 @@ function menu(){
                       <li class="nav-item">
                           <a class="nav-link" href="catalogue.html"><b>Catalogue</b></a>
                       </li>
+
+                      <li class="nav-item">
+                          <a class="nav-link" href="myCats.html"><b>My kitties</b></a>
+                      </li>
+
+                      
                       <li class="nav-item">
                           <a class="nav-link" href="factory.html"><b>K-Factory</b></a>
                       </li>
