@@ -15,6 +15,34 @@ contract KittyCore is Ownable, KittyMarketPlace {
     _createKitty(0, 0, 0, uint256(-1), address(0));
   }
 
+/*
+*       we get a 
+*
+*       Basic binary operation
+*
+*       >>> '{0:08b}'.format(255 & 1)
+*       '00000001'
+*       >>> '{0:08b}'.format(255 & 2)
+*       '00000010'
+*       >>> '{0:08b}'.format(255 & 4)
+*       '00000100'
+*       >>> '{0:08b}'.format(255 & 8)
+*       '00001000'
+*       >>> '{0:08b}'.format(255 & 16)
+*       '00010000'
+*       >>> '{0:08b}'.format(255 & 32)
+*       '00100000'
+*       >>> '{0:08b}'.format(255 & 64)
+*       '01000000'
+*       >>> '{0:08b}'.format(255 & 128)
+*       '10000000'
+*
+*       So we use a mask on our random number to check if we will use the mumID or the dadId
+*
+*       For example 205 is 11001101 in binary So
+*       mum - mum - dad -dad -mum - mum - dad - mum
+*
+*/
   function Breeding(uint256 _dadId, uint256 _mumId) public {
       require(_owns(msg.sender, _dadId), "The user doesn't own the token");
       require(_owns(msg.sender, _mumId), "The user doesn't own the token");
@@ -23,20 +51,31 @@ contract KittyCore is Ownable, KittyMarketPlace {
 
       ( uint256 Mumgenes,,,,uint256 MumGeneration ) = getKitty(_mumId);
 
-      uint256 i;
       uint256 geneKid;
+      uint256 [8] memory geneArray;
+      uint256 index = 7;
+      uint8 random = uint8(now % 255);
+      uint256 i = 0;
+      
+      for(i = 1; i <= 128; i=i*2){
 
-      for(i=1; i <= 128; i=i*2){
-          if(now % 255 & i != 0){
-              geneKid += Mumgenes % 100;
+          /* We are */
+          if(random & i != 0){
+              geneArray[index] = uint8(Mumgenes % 100);
           } else {
-              geneKid +=  Dadgenes % 100;
+              geneArray[index] = uint8(Dadgenes % 100);
           }
           Mumgenes /= 100;
           Dadgenes /= 100;
-          if (i < 128){
-              geneKid *= 100;
-          }
+        index -= 1;
+      }
+
+      /* We reverse the DNa in the right order */
+      for (i = 0 ; i < 8; i++ ){
+        geneKid += geneArray[i];
+        if(i != 7){
+            geneKid *= 100;
+        }
       }
 
       uint256 kidGen = 0;
@@ -47,7 +86,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
         kidGen = DadGeneration + 1;
         kidGen /= 2;
       } else{
-        kidGen = MumGeneration;
+        kidGen = MumGeneration + 1;
       }
 
       _createKitty(_mumId, _dadId, kidGen, geneKid, msg.sender);
