@@ -53,7 +53,7 @@ function selectBreed(dna,id,gen,gender) {
     $('#catSelection').modal('hide')
     removeSelection(id,gender)
     readyToBredd()
-}
+} 
 
 function readyToBredd(){
 
