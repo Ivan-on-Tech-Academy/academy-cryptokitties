@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0xd3add19ee7e5287148a5866784aE3C55bd4E375A";
+var contract = "0x5a8665AbbDe3986687494176e22d38B169EA1eab";
 var contractOwner = "0x2B522cABE9950D1153c26C1b399B293CaA99FcF9";
 
 $(document).ready(function () {
@@ -70,7 +70,6 @@ async function checkOffer(id) {
     return
   }
 
-
 }
 
 
@@ -88,6 +87,7 @@ async function kittyByOwner(address) {
 //Gen 0 cats for sale
 async function contractCatalog() {
   var arrayId = await instance.methods.tokensOfOwner(contractOwner).call();
+  log(arrayId)
   for (i = 0; i < arrayId.length; i++) {
     appendKitty(arrayId[i])
   }
@@ -103,7 +103,6 @@ async function myKitties() {
 
 //Get kittues for breeding that are not selected
 async function breedKitties(gender) {
-
   var arrayId = await instance.methods.tokensOfOwner(user).call();
   for (i = 0; i < arrayId.length; i++) {
     appendBreed(arrayId[i],gender)

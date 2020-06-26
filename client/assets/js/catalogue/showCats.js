@@ -47,11 +47,21 @@ function selectBreed(dna,id,gen,gender) {
     $('#'+gender).attr('data-catid',id)  
     $('#'+gender).attr('onclick','breedKitties("'+gender+'")')    
     $('#catDNA'+gender).html(`
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4></span>
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4><input class="hidden" id="`+gender+`Id" type="number" value=`+id+`></span>
     <br>
     <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna +`</h4></span>`)    
     $('#catSelection').modal('hide')
     removeSelection(id,gender)
+}
+
+function readyToBredd(){
+
+var mumId = $('#DameId').val()  
+var dadId = $('#SireId').val()  
+
+if(!empty(mumId) && !empty(dadId)){
+    $('#breed').attr('onclick','breed("'+dadId+'","'+mumId+'")')
+}
 }
 
 //If user select a selected cat from any gender, its remove it from the selection box
