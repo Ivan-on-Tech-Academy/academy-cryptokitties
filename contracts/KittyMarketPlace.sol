@@ -1,6 +1,6 @@
-import "./KittyOwnership.sol";
-
 pragma solidity ^0.5.0;
+
+import "./KittyOwnership.sol";
 
 contract KittyMarketPlace is KittyOwnership {
 
@@ -57,12 +57,12 @@ contract KittyMarketPlace is KittyOwnership {
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
     delete tokenIdToOffer[_tokenId];
-    
+
     _approve(_tokenId, msg.sender);
     transferFrom(offer.seller, msg.sender, _tokenId);
     offer.seller.transfer(msg.value);
     emit MarketTransaction("Buy", msg.sender, _tokenId);
   }
- 
+
 
 }
