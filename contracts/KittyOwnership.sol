@@ -44,6 +44,11 @@ contract KittyOwnership is KittyFactory{
       kittyIndexToApproved[_tokenId] = _approved;
   }
 
+  function _deleteApproval(uint256 _tokenId) internal {
+      require(_owns(msg.sender, _tokenId));
+      delete kittyIndexToApproved[_tokenId];
+  }
+
 
   /*
   *   Function required by the erc 721 interface
@@ -73,9 +78,9 @@ contract KittyOwnership is KittyFactory{
   )
       public
   {
-      require(_owns(_to, _tokenId));
+      require(_owns(msg.sender, _tokenId));
 
-      _approve(_tokenId, msg.sender);
+      _approve(_tokenId, _to);
       emit Approval(msg.sender, _to, _tokenId);
   }
 
