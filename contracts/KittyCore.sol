@@ -1,9 +1,9 @@
 import "./utils/Ownable.sol";
-import "./KittyMarketPlace.sol";
+import "./KittyOwnership.sol";
 
 pragma solidity ^0.5.0;
 
-contract KittyCore is Ownable, KittyMarketPlace {
+contract KittyCore is Ownable, KittyOwnership {
 
   uint256 public constant CREATION_LIMIT_GEN0 = 10;
 
@@ -11,8 +11,8 @@ contract KittyCore is Ownable, KittyMarketPlace {
   uint256 public gen0Counter;
 
   constructor() public {
-    // We are creating the first kitty at index 0  
-    _createKitty(0, 0, 0, uint256(-1), address(0));
+    // We are creating the first kitty at index 0
+    _createKitty(0, 0, 0, uint256(-1), address(msg.sender));
   }
 
 /*
@@ -103,8 +103,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
     gen0Counter++;
 
     // Gen0 have no owners they are own by the contract
-    uint256 tokenId = _createKitty(0, 0, 0, _genes, msg.sender);
-    setOffer(0.2 ether, tokenId);
+    _createKitty(0, 0, 0, _genes, msg.sender);
   }
 
   function getKitty(uint256 _id)
