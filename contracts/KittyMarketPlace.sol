@@ -1,8 +1,21 @@
 pragma solidity ^0.5.0;
 
 import "./KittyOwnership.sol";
+import "./utils/Ownable.sol";
 
-contract KittyMarketPlace is KittyOwnership {
+interface KtyCore {
+  function verifyKittyInExistence (uint256 _tokenId) external view returns (bool);
+}
+
+contract KittyMarketPlace is KittyOwnership, Ownable {
+
+  address private kittyCore;
+
+  modifier marketplaceIsSetUp ()  {
+    require (kittyCore != address(0), "Kitty Core address not defined");
+    _;
+  }
+
 
   struct Offer {
       address payable seller;
@@ -21,21 +34,25 @@ contract KittyMarketPlace is KittyOwnership {
       address seller,
       uint256 price
   ) {
-      Offer storage offer = tokenIdToOffer[_tokenId];
-      return (
-          offer.seller,
-          offer.price
-      );
+
+    Offer storage offer = tokenIdToOffer[_tokenId];
+    return (
+      offer.seller,
+      offer.price
+    );
   }
 
   function setOffer(uint256 _price, uint256 _tokenId)
     public
+    marketplaceIsSetUp
   {
     /*
     *   We give the contract the ability to transfer kitties
     *   As the kitties will be in the market place we need to be able to transfert them
     *   We are checking if the user is owning the kitty inside the approve function
     */
+    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+
     tokenIdToOffer[_tokenId].seller = msg.sender;
     tokenIdToOffer[_tokenId].price = _price;
     emit MarketTransaction("Create offer", msg.sender, _tokenId);
@@ -43,7 +60,10 @@ contract KittyMarketPlace is KittyOwnership {
 
   function removeOffer(uint256 _tokenId)
     public
+    marketplaceIsSetUp
   {
+    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
     delete tokenIdToOffer[_tokenId];
@@ -52,8 +72,11 @@ contract KittyMarketPlace is KittyOwnership {
 
   function buyKitty(uint256 _tokenId)
     public
+    marketplaceIsSetUp
     payable
   {
+    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
     delete tokenIdToOffer[_tokenId];
@@ -62,6 +85,11 @@ contract KittyMarketPlace is KittyOwnership {
     transferFrom(offer.seller, msg.sender, _tokenId);
     offer.seller.transfer(msg.value);
     emit MarketTransaction("Buy", msg.sender, _tokenId);
+  }
+
+
+  function activateMarketPlace (address _kittyCore) public onlyOwner {
+    kittyCore = _kittyCore;
   }
 
 

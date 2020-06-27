@@ -5,7 +5,7 @@ contract KittyFactory {
   /*
   *   A new cat is born
   */
-  event Birth(address owner, uint256 kittyId, uint256 mumId, uint256 dadId, uint256 genes);
+  event Birth(address owner, uint256 kittyId, uint256 momId, uint256 dadId, uint256 genes);
 
   /*
   *   A cat has been transfer
@@ -16,11 +16,24 @@ contract KittyFactory {
   *   Here we will use the same structure as the original crypto kitties game
   *   As it fit exactly into two bit words
   */
+
+  struct BreedingAssistant {
+    address requestor;
+    uint256 dadId;
+    uint256 momId;
+    uint256 randomNumber;
+    uint256 kidGen;
+    uint256 geneKid;
+  }
+
+  mapping (bytes32 => BreedingAssistant) public breedingAssistant;
+
+
   struct Kitty {
 
       uint256 genes;
       uint64 birthTime;
-      uint32 mumId;
+      uint32 momId;
       uint32 dadId;
       uint16 generation;
   }
@@ -33,23 +46,20 @@ contract KittyFactory {
   // Add a list of approved kitties, that are allowed to be transfered
   mapping (uint256 => address) public kittyIndexToApproved;
 
+
   function _createKitty(
-      uint256 _mumId,
-      uint256 _dadId,
-      uint256 _generation,
-      uint256 _genes,
-      address _owner
+      bytes32 _requestId
   )
       internal
       returns (uint)
   {
 
     Kitty memory _kitty = Kitty({
-        genes: _genes,
+        genes: breedingAssistant[_requestId].geneKid,
         birthTime: uint64(now),
-        mumId: uint32(_mumId),
-        dadId: uint32(_dadId),
-        generation: uint16(_generation)
+        momId: uint32(breedingAssistant[_requestId].momId),
+        dadId: uint32(breedingAssistant[_requestId].dadId),
+        generation: uint16(breedingAssistant[_requestId].kidGen)
     });
 
     uint256 newKittenId = kitties.push(_kitty) - 1;
@@ -60,16 +70,20 @@ contract KittyFactory {
 
     // emit the birth event
     emit Birth(
-        _owner,
+        breedingAssistant[_requestId].requestor,
         newKittenId,
-        uint256(_kitty.mumId),
-        uint256(_kitty.dadId),
+        uint256(breedingAssistant[_requestId].momId),
+        uint256(breedingAssistant[_requestId].dadId),
         _kitty.genes
     );
 
     // This will assign ownership, and also emit the Transfer event as
     // per ERC721 draft
-    _transfer(address(0), _owner, newKittenId);
+    _transfer(address(0), breedingAssistant[_requestId].requestor, newKittenId);
+
+    // Deleting breedingAssistant for given _requestId
+    delete (breedingAssistant[_requestId]);
+
     return newKittenId;
   }
 
