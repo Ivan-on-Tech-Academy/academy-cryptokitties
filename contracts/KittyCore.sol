@@ -132,16 +132,16 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase{
     breedingAssistant[_requestId].geneKid = geneKid;
     breedingAssistant[_requestId].kidGen = kidGen;
 
-    uint kittyId = _createKitty(_requestId);
-    kittyInExistence[kittyId] = true;
+    uint tokenId = _createKitty(_requestId);
+    kittyInExistence[tokenId] = true;
   }
 
   function createKittyGen0(uint256 _genes) public onlyOwner {
-    require(gen0Counter < CREATION_LIMIT_GEN0);
+    require(gen0Counter < CREATION_LIMIT_GEN0, "Gen 0 creation limit reached");
 
     gen0Counter++;
 
-    bytes32 gen0Creation = keccak256(abi.encodePacked(msg.sender,block.timestamp));
+    bytes32 gen0Creation = keccak256(abi.encodePacked(msg.sender));
 
     breedingAssistant[gen0Creation].momId = 0;
     breedingAssistant[gen0Creation].dadId = 0;
@@ -151,6 +151,7 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase{
 
     // Gen0 have no owners they are own by the contract
     uint256 tokenId = _createKitty(gen0Creation);
+    kittyInExistence[tokenId] = true;
     setOffer(0.2 ether, tokenId);
   }
 

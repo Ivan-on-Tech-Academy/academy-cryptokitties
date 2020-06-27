@@ -51,7 +51,9 @@ contract KittyMarketPlace is KittyOwnership, Ownable {
     *   As the kitties will be in the market place we need to be able to transfert them
     *   We are checking if the user is owning the kitty inside the approve function
     */
-    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+
+    bool check = KtyCore(kittyCore).verifyKittyInExistence(_tokenId);
+    require (check == true , "Invalid token Id");
 
     tokenIdToOffer[_tokenId].seller = msg.sender;
     tokenIdToOffer[_tokenId].price = _price;
@@ -62,7 +64,8 @@ contract KittyMarketPlace is KittyOwnership, Ownable {
     public
     marketplaceIsSetUp
   {
-    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+    bool check = KtyCore(kittyCore).verifyKittyInExistence(_tokenId);
+    require (check == true , "Invalid token Id");
 
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
@@ -75,7 +78,8 @@ contract KittyMarketPlace is KittyOwnership, Ownable {
     marketplaceIsSetUp
     payable
   {
-    require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+    bool check = KtyCore(kittyCore).verifyKittyInExistence(_tokenId);
+    require (check == true , "Invalid token Id");
 
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");

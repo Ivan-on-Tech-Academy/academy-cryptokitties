@@ -66,7 +66,7 @@ contract KittyFactory {
 
     // It's probably never going to happen, 4 billion cats is A LOT, but
     // let's just be 100% sure we never let this happen.
-    require(newKittenId == uint256(uint32(newKittenId)));
+    require(newKittenId == uint256(uint32(newKittenId)), "Kitty Ids mismatch");
 
     // emit the birth event
     emit Birth(
