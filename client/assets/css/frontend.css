@@ -91,6 +91,10 @@
     margin-bottom: 120px;
 }
 
+#breed {
+    filter: grayscale();    
+}
+
 .breedBox {
     margin-top: 15vh;
     margin-bottom: 120px;

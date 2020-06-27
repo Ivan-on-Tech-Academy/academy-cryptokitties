@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x8c13AFB7815f10A8333955854E6ec7503eD841B7";
+var contract = "0x3c9AE9a91ed238fcbABC89567547dBd52bc8ef63";
 var contractOwner;
 
 $(document).ready(function () {
@@ -75,7 +75,6 @@ async function checkOffer(id) {
     return
   }
 
-
 }
 
 
@@ -93,6 +92,7 @@ async function kittyByOwner(address) {
 //Gen 0 cats for sale
 async function contractCatalog() {
   var arrayId = await instance.methods.tokensOfOwner(contractOwner).call();
+  log(arrayId)
   for (i = 0; i < arrayId.length; i++) {
     appendKitty(arrayId[i])
   }
@@ -108,7 +108,6 @@ async function myKitties() {
 
 //Get kittues for breeding that are not selected
 async function breedKitties(gender) {
-
   var arrayId = await instance.methods.tokensOfOwner(user).call();
   for (i = 0; i < arrayId.length; i++) {
     appendBreed(arrayId[i],gender)
@@ -119,6 +118,19 @@ async function breedKitties(gender) {
 async function appendBreed(id,gender) {
   var kitty = await instance.methods.getKitty(id).call()  
   breedAppend(kitty[0], id, kitty['generation'],gender)
+}
+
+//Appending cats to breed selection
+async function breed(dadId,mumId) {
+  try {
+    var newKitty = await instance.methods.Breeding(dadId,mumId).send()  
+    log(newKitty)
+    setTimeout(()=>{
+      go_to('myCats.html')
+    },2000)
+  } catch (err){
+    log(err)
+  }  
 }
 
 //Appending cats for catalog
