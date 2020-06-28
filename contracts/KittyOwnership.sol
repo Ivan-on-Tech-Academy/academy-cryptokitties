@@ -76,7 +76,7 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      public
+      external
   {
       require(_owns(msg.sender, _tokenId));
 
@@ -88,7 +88,7 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      public
+      external
   {
       require(_to != address(0));
       require(_owns(msg.sender, _tokenId));
@@ -101,7 +101,7 @@ contract KittyOwnership is KittyFactory{
       address _to,
       uint256 _tokenId
   )
-      public
+      external
   {
       require(_to != address(0), "Cannot send to addresss 0");
       require(_approvedFor(msg.sender, _tokenId) || _owns(_from, _tokenId), "You need to be approved or owner");
