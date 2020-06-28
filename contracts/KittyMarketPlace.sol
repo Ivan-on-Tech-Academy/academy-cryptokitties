@@ -5,16 +5,16 @@ pragma solidity ^0.5.0;
 contract KittyMarketPlace is KittyOwnership {
 
   struct Offer {
-      address payable seller;
-      uint256 price;
-      uint256 index;
-      uint256 tokenId;
-      bool activate;
+    address payable seller;
+    uint256 price;
+    uint256 tokenId;
   }
 
   Offer[] offers;
 
   mapping (uint256 => Offer) tokenIdToOffer;
+  mapping (uint256 => uint256) tokenIdToOfferId;
+
 
   event MarketTransaction(string TxType, address owner, uint256 tokenId);
 
@@ -25,39 +25,35 @@ contract KittyMarketPlace is KittyOwnership {
   (
       address seller,
       uint256 price,
-      uint256 index,
-      uint256 tokenId,
-      bool activate
+      uint256 tokenId
 
   ) {
       Offer storage offer = tokenIdToOffer[_tokenId];
       return (
           offer.seller,
           offer.price,
-          offer.index,
-          offer.tokenId,
-          offer.activate
+          offer.tokenId
       );
   }
 
-  function getAllTokenOnSale() public  returns(uint256[] memory listOfOffers){
+
+  function getAllTokenOnSale() public  returns(uint256[] memory listOfToken){
     uint256 totalOffers = offers.length;
     
     if (totalOffers == 0) {
         return new uint256[](0);
     } else {
-      len = offers.length;
   
-      uint256[] memory result = new uint256[](totalOffers);
-  
+      uint256[] memory resultOfToken = new uint256[](totalOffers);
+
       uint256 offerId;
   
       for (offerId = 0; offerId < totalOffers; offerId++) {
-        if(offers[offerId].activate == true){
-          result[offerId] = offers[offerId].tokenId;
+        if(offers[offerId].price != 0){
+          resultOfToken[offerId] = offers[offerId].tokenId;
         }
       }
-      return result;
+      return resultOfToken;
     }
   }
 
@@ -77,14 +73,14 @@ contract KittyMarketPlace is KittyOwnership {
     Offer memory _offer = Offer({
       seller: msg.sender,
       price: _price,
-      activate: true,
-      tokenId: _tokenId,
-      index: offers.length
+      tokenId: _tokenId
     });
 
     tokenIdToOffer[_tokenId] = _offer;
 
-    offers.push(_offer);
+    uint256 index = offers.push(_offer) - 1;
+
+    tokenIdToOfferId[_tokenId] = index;
 
     emit MarketTransaction("Create offer", msg.sender, _tokenId);
   }
@@ -95,13 +91,16 @@ contract KittyMarketPlace is KittyOwnership {
     require(_owns(msg.sender, _tokenId), "The user doesn't own the token");
 
     Offer memory offer = tokenIdToOffer[_tokenId];
+
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
 
-    /* Set the offer are not active*/
-    offers[tokenIdToOffer[_tokenId].index].activate = false;
+    /* we delete the offer info */
+    delete offers[tokenIdToOfferId[_tokenId]];
 
     /* Remove the offer in the mapping*/
     delete tokenIdToOffer[_tokenId];
+
+
     _deleteApproval(_tokenId);
 
     emit MarketTransaction("Remove offer", msg.sender, _tokenId);
@@ -111,11 +110,11 @@ contract KittyMarketPlace is KittyOwnership {
     public
     payable
   {
-    Offer memory offer = tokenIdToOffer[_tokenId];
+    Offer memory offer = tokenIdToOffer[_tokenId]];
     require(msg.value == offer.price, "The price is not correct");
-    
-    /* Set the offer are not active*/
-    offers[tokenIdToOffer[_tokenId].index].activate = false;
+
+    /* we delete the offer info */
+    delete offers[tokenIdToOfferId[_tokenId];
 
     /* Remove the offer in the mapping*/
     delete tokenIdToOffer[_tokenId];
@@ -126,10 +125,7 @@ contract KittyMarketPlace is KittyOwnership {
 
     transferFrom(offer.seller, msg.sender, _tokenId);
 
-
     offer.seller.transfer(msg.value);
     emit MarketTransaction("Buy", msg.sender, _tokenId);
   }
- 
-
 }
