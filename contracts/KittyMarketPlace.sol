@@ -7,9 +7,12 @@ contract KittyMarketPlace is KittyOwnership {
   struct Offer {
       address payable seller;
       uint256 price;
+      uint256 index;
+      uint256 tokenId;
+      bool activate;
   }
 
-  Offer [] offers;
+  Offer[] offers;
 
   mapping (uint256 => Offer) tokenIdToOffer;
 
@@ -21,13 +24,41 @@ contract KittyMarketPlace is KittyOwnership {
       returns
   (
       address seller,
-      uint256 price
+      uint256 price,
+      uint256 index,
+      uint256 tokenId,
+      bool activate
+
   ) {
       Offer storage offer = tokenIdToOffer[_tokenId];
       return (
           offer.seller,
-          offer.price
+          offer.price,
+          offer.index,
+          offer.tokenId,
+          offer.activate
       );
+  }
+
+  function getAllTokenOnSale() public  returns(uint256[] memory listOfOffers){
+    uint256 totalOffers = offers.length;
+    
+    if (totalOffers == 0) {
+        return new uint256[](0);
+    } else {
+      len = offers.length;
+  
+      uint256[] memory result = new uint256[](totalOffers);
+  
+      uint256 offerId;
+  
+      for (offerId = 0; offerId < totalOffers; offerId++) {
+        if(offers[offerId].activate == true){
+          result[offerId] = offers[offerId].tokenId;
+        }
+      }
+      return result;
+    }
   }
 
   function setOffer(uint256 _price, uint256 _tokenId)
@@ -43,8 +74,18 @@ contract KittyMarketPlace is KittyOwnership {
 
     approve(address(this), _tokenId);
 
-    tokenIdToOffer[_tokenId].seller = msg.sender;
-    tokenIdToOffer[_tokenId].price = _price;
+    Offer memory _offer = Offer({
+      seller: msg.sender,
+      price: _price,
+      activate: true,
+      tokenId: _tokenId,
+      index: offers.length
+    });
+
+    tokenIdToOffer[_tokenId] = _offer;
+
+    offers.push(_offer);
+
     emit MarketTransaction("Create offer", msg.sender, _tokenId);
   }
 
@@ -56,8 +97,13 @@ contract KittyMarketPlace is KittyOwnership {
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
 
+    /* Set the offer are not active*/
+    offers[tokenIdToOffer[_tokenId].index].activate = false;
+
+    /* Remove the offer in the mapping*/
     delete tokenIdToOffer[_tokenId];
-    _deleteApproval(_tokenId)
+
+    _deleteApproval(_tokenId);
 
     emit MarketTransaction("Remove offer", msg.sender, _tokenId);
   }
@@ -69,6 +115,10 @@ contract KittyMarketPlace is KittyOwnership {
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
     
+    /* Set the offer are not active*/
+    offers[tokenIdToOffer[_tokenId].index].activate = false;
+
+    /* Remove the offer in the mapping*/
     delete tokenIdToOffer[_tokenId];
 
     /* TMP REMOVE THIS*/

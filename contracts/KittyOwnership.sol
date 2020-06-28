@@ -25,7 +25,8 @@ contract KittyOwnership is KittyFactory{
       bytes4(keccak256('approve(address,uint256)')) ^
       bytes4(keccak256('transfer(address,uint256)')) ^
       bytes4(keccak256('transferFrom(address,address,uint256)')) ^
-      bytes4(keccak256('tokensOfOwner(address)'));
+      bytes4(keccak256('tokensOfOwner(address)')) ^
+      bytes4(keccak256('tokenMetadata(uint256,string)'));
 
   function supportsInterface(bytes4 _interfaceID) external pure returns (bool)
   {
