@@ -78,11 +78,16 @@ contract KittyOwnership is KittyFactory{
   )
       external
   {
-      require(_owns(msg.sender, _tokenId));
+      require(_owns(msg.sender, _tokenId), "You do not own this kitty");
 
       _approve(_tokenId, _to);
       emit Approval(msg.sender, _to, _tokenId);
   }
+
+  function getApproved(uint256 _tokenId) external view returns (address) {
+    return kittyIndexToApproved[_tokenId];
+  }
+
 
   function transfer(
       address _to,

@@ -68,10 +68,6 @@ contract KittyMarketPlace is Ownable {
         emit OfferSuccess(_kittyId, offer.price, msg.sender);
     }
 
-    function _aquireKitty(address _owner, uint256 _kittyId) internal {
-        kittyContract.transferFrom(_owner, address(this), _kittyId);
-    }
-
     function _returnKitty(address _owner, uint256 _kittyId) internal {
         kittyContract.transfer(_owner, _kittyId);
     }
@@ -85,9 +81,8 @@ contract KittyMarketPlace is Ownable {
             "You are not the owner of that kitty"
         );
         require(_price > 0.009 ether, "Cat price should be greater than 0.01");
-        require(kittyIdToOffer[_kittyId].price == 0, "You can't sell twice the same offers ");
+        require(kittyContract.getApproved(_kittyId) == address(this), "Contract needs to be approved to transfer the kitty");
 
-        _aquireKitty(msg.sender, _kittyId);
         Offer memory offer = Offer(msg.sender, _price);
         _addOffer(_kittyId, offer);
     }

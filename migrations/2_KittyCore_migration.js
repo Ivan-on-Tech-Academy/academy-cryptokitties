@@ -14,5 +14,7 @@ module.exports = async (deployer, network, accounts) => {
 
   // Set first initial offer in marketplace
   const createdKitties = await kittyCoreInstance.tokensOfOwner(ownerAddress)
-  return await kittyMarketPlaceInstance.createOffer(createdKitties[0], initialKittyPrice, {from : ownerAddress})
+  const createdKitty = createdKitties[0]
+  await kittyCoreInstance.approve(KittyMarketPlace.address,createdKitty)
+  await kittyMarketPlaceInstance.createOffer(createdKitty, initialKittyPrice, {from : ownerAddress})
 };
