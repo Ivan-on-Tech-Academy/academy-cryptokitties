@@ -204,6 +204,21 @@ var abi = [
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [],
+    "name": "getAllTokenOnSale",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "listOfToken",
+        "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -222,6 +237,11 @@ var abi = [
       {
         "internalType": "uint256",
         "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],

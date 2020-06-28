@@ -3,7 +3,7 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0xD50C47B35b8F99FDdd2717fA3f98A8E611262B48";
+var contract = "0x3A18BBB8046142c44E86C4a17A2a8EE12E3bDcf8";
 var contractOwner;
 
 $(document).ready(function () {
@@ -84,6 +84,7 @@ function createKitty() {
   }
 }
 
+
 async function checkOffer(id) {
 
   let res;
@@ -122,9 +123,11 @@ async function kittyByOwner(address) {
 
 //Gen 0 cats for sale
 async function contractCatalog() {
-  var arrayId = await instance.methods.tokensOfOwner(contractOwner).call();
+  var arrayId = await instance.methods.getAllTokenOnSale().call();
   for (i = 0; i < arrayId.length; i++) {
-    appendKitty(arrayId[i])
+    if(arrayId[i] != "0"){
+      appendKitty(arrayId[i])
+    }    
   }
 }
 

@@ -47,7 +47,7 @@ contract KittyCore is Ownable, KittyMarketPlace {
       require(_owns(msg.sender, _dadId), "The user doesn't own the token");
       require(_owns(msg.sender, _mumId), "The user doesn't own the token");
 
-      require(_mumId != _dadId), "The cat can't reproduce himself");
+      require(_mumId != _dadId, "The cat can't reproduce himself");
 
       ( uint256 Dadgenes,,,,uint256 DadGeneration ) = getKitty(_dadId);
 

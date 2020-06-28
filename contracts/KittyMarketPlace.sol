@@ -110,11 +110,11 @@ contract KittyMarketPlace is KittyOwnership {
     public
     payable
   {
-    Offer memory offer = tokenIdToOffer[_tokenId]];
+    Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
 
     /* we delete the offer info */
-    delete offers[tokenIdToOfferId[_tokenId];
+    delete offers[tokenIdToOfferId[_tokenId]];
 
     /* Remove the offer in the mapping*/
     delete tokenIdToOffer[_tokenId];
