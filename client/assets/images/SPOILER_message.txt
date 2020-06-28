@@ -1,0 +1,94 @@
+Now fully compatible with solidity 0.5.0 
+
+In order to use ChainLink oracle I changed the way we breed a new kitty.
+
+@gabba // disclaimer // my love you hashing did not determine the logic behind what you will read :) 
+
+Since we must wait the random number to be generated I had to create a struct and save data inside (the key to the struct is bytes32 _requestId)
+
+Following that idea, and because I was getting the error ‘too many parameters’ when creating a new kitty I just saved all the data in the struct and then sent the _requestId to the createKytty () method.
+By only sending the bytes32 _requestId we can access the struct and use all the data we need.
+
+This struct is deleted once the kitty has been created
+
+Data have been changed from:
+
+  function _createKitty(
+        uint256 _momId,
+        uint256 _dadId,
+        uint256 _generation,
+        uint256 _genes,
+        address _owner
+    )
+
+
+to:
+
+  struct BreedingAssistant {
+    address requestor;
+    uint256 dadId;
+    uint256 momId;
+    uint256 randomNumber;
+    uint256 kidGen;
+    uint256 geneKid;
+  }
+
+  mapping (bytes32 => BreedingAssistant) public breedingAssistant;
+
+
+where:
+
+
+_momId 	>>	breedingAssistant[_requestId]. momId;
+
+_dadId	>> 	breedingAssistant[_requestId]. dadId;
+
+_generation	>>	breedingAssistant[_requestId]. kidGen;
+
+_genes	>>	breedingAssistant[_requestId]. geneKid;
+
+_owner	>>	breedingAssistant[_requestId]. requestor;
+
+
+
+Major changes:
+
+- breeding () method is now private and MUST be called ONLY from the method fulfillRandomness()
+
+- you must call random () as starting method to breed a new katto 
+
+- random () now includes require statements 
+
+- added mapping that returns true if a tokenId exists (if a kitty has been created). This fixes bugs in KittyMarketPlace. (   mapping (uint256 => bool) public kittyInExistence ; )
+
+Each time a new kitty is created, the ID is returned to the caller method and pushed into the mapping :)
+
+Added interface to KittyMarketPlace so that we can check if a tokenId exists. The interface points to KittyCore >> verifyKittyInExistence (_tokenId).
+
+interface KtyCore {
+  function verifyKittyInExistence (uint256 _tokenId) external view returns (bool);
+}
+
+We now have this requirement in marketplace for all the methods:
+require (KtyCore(kittyCore).verifyKittyInExistence(_tokenId) == true);
+
+	
+In order to call verifyKittyInExistence () we must set a valid address for KittyCore. Because of this I added:
+
+function activateMarketPlace (address _kittyCore) public onlyOwner {
+    kittyCore = _kittyCore;
+  }
+
+and a modifier 
+
+  modifier marketplaceIsSetUp ()  {
+    require (kittyCore != address(0), "Kitty Core address not defined");
+    _;
+  }
+
+
+
+
+
+
+

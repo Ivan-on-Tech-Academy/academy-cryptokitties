@@ -35,14 +35,6 @@ p {
   letter-spacing: 1px;
 }
 
-#message {
-  margin  : 10px;
-  position: fixed;
-  bottom  : 4rem;
-  z-index : 2000;
-  right   : 10px;
-}
-
 .pointer {
 
   cursor: pointer;
@@ -50,6 +42,11 @@ p {
 }
 
 /*  Alignment */
+
+
+.t-no-wrap {
+  white-space: nowrap;
+}
 
 .no-wrap {
   flex-wrap: nowrap;
@@ -169,7 +166,7 @@ th {
 
 /* BOXES */
 
-#results {
+.results {
 
   margin  : 10px;
   position: fixed;

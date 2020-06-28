@@ -3,19 +3,18 @@ var instance;
 var user;
 var dnaStr = "457896541299";
 
-var contract = "0x3c9AE9a91ed238fcbABC89567547dBd52bc8ef63";
+var contract = "0xD50C47B35b8F99FDdd2717fA3f98A8E611262B48";
 var contractOwner;
 
 $(document).ready(function () {
   window.ethereum.enable().then(function (accounts) {
     instance = new web3.eth.Contract(abi, contract, { from: accounts[0] });
-    console.log(instance);
-    instance.methods.owner().call().then( test =>{
+    instance.methods.owner().call().then(test => {
       contractOwner = test;
-      console.log(contractOwner);
     });
     user = accounts[0];
-    /* 
+    /*     
+    EVENTS
     *   Listen for the `Birth` event, and update the UI
     *   This event is generate in the KittyBase contract
     *   when the _createKitty internal method is called
@@ -28,13 +27,47 @@ $(document).ready(function () {
         let kittyId = event.returnValues.kittyId;
         let mumId = event.returnValues.mumId;
         let dadId = event.returnValues.dadId;
-        let genes = event.returnValues.genes
-        $("#kittyCreation").css("display", "block");
-        $("#kittyCreation").text("owner:" + owner
+        let genes = event.returnValues.genes        
+        alert_msg("owner:" + owner
           + " kittyId:" + kittyId
           + " mumId:" + mumId
           + " dadId:" + dadId
-          + " genes:" + genes)
+          + " genes:" + genes,'success')
+      })
+      .on('error', console.error);
+
+    instance.events.MarketTransaction()
+      .on('data', (event) => {
+        console.log(event);
+        var eventType = event.returnValues["TxType"].toString()
+        var tokenId = event.returnValues["tokenId"]
+        if (eventType == "Buy") {
+          alert_msg('Succesfully Kitty purchase! Now you own this Kitty with TokenId: ' + tokenId, 'success')
+        }
+        if (eventType == "Create offer") {
+          alert_msg('Successfully Offer set for Kitty id: ' + tokenId, 'success')
+          $('#cancelBox').removeClass('hidden')
+          $('#cancelBtn').attr('onclick', 'deleteOffer(' + tokenId + ')')
+          $('#sellBtn').attr('onclick', '')
+          $('#sellBtn').addClass('btn-warning')
+          $('#sellBtn').html('<b>For sale at:</b>')
+          var price = $('#catPrice').val()
+          $('#catPrice').val(price)
+          $('#catPrice').prop('readonly', true)
+
+          
+        }
+        if (eventType == "Remove offer") {
+          alert_msg('Successfully Offer remove for Kitty id: ' + tokenId, 'success')
+          $('#cancelBox').addClass('hidden')
+          $('#cancelBtn').attr('onclick', '')          
+          $('#catPrice').val('')
+          $('#catPrice').prop('readonly', false)
+          $('#sellBtn').removeClass('btn-warning')
+          $('#sellBtn').addClass('btn-success')
+          $('#sellBtn').html('<b>Sell me</b>')
+          $('#sellBtn').attr('onclick', 'sellCat(' + tokenId + ')')          
+        }
       })
       .on('error', console.error);
   });
@@ -67,7 +100,6 @@ async function checkOffer(id) {
     //Also might check that belong to someone
     price = Web3.utils.fromWei(price, 'ether');
     var offer = { seller: seller, price: price, onsale: onsale }
-    log(offer)
     return offer
 
   } catch (err) {
@@ -76,7 +108,6 @@ async function checkOffer(id) {
   }
 
 }
-
 
 // Get all the kitties from address
 async function kittyByOwner(address) {
@@ -92,7 +123,6 @@ async function kittyByOwner(address) {
 //Gen 0 cats for sale
 async function contractCatalog() {
   var arrayId = await instance.methods.tokensOfOwner(contractOwner).call();
-  log(arrayId)
   for (i = 0; i < arrayId.length; i++) {
     appendKitty(arrayId[i])
   }
@@ -110,32 +140,43 @@ async function myKitties() {
 async function breedKitties(gender) {
   var arrayId = await instance.methods.tokensOfOwner(user).call();
   for (i = 0; i < arrayId.length; i++) {
-    appendBreed(arrayId[i],gender)
+    appendBreed(arrayId[i], gender)
   }
 }
 
+// Checks that the user address is same as the cat owner address
+//This is use for checking if user can sell this cat
+async function catOwnership(id) {
+
+  var address = await instance.methods.ownerOf(id).call()
+
+  if (address.toLowerCase() == user.toLowerCase()) {      
+    return true
+  }  
+  return false
+
+}
+
+
+
 //Appending cats to breed selection
-async function appendBreed(id,gender) {
-  var kitty = await instance.methods.getKitty(id).call()  
-  breedAppend(kitty[0], id, kitty['generation'],gender)
+async function appendBreed(id, gender) {
+  var kitty = await instance.methods.getKitty(id).call()
+  breedAppend(kitty[0], id, kitty['generation'], gender)
 }
 
 //Appending cats to breed selection
-async function breed(dadId,mumId) {
+async function breed(dadId, mumId) {
   try {
-    var newKitty = await instance.methods.Breeding(dadId,mumId).send()  
-    log(newKitty)
-    setTimeout(()=>{
-      go_to('myCats.html')
-    },2000)
-  } catch (err){
+    await instance.methods.Breeding(dadId, mumId).send()
+  } catch (err) {
     log(err)
-  }  
+  }
 }
 
 //Appending cats for catalog
 async function appendKitty(id) {
-  var kitty = await instance.methods.getKitty(id).call()  
+  var kitty = await instance.methods.getKitty(id).call()
   appendCat(kitty[0], id, kitty['generation'])
 }
 
@@ -147,32 +188,34 @@ async function singleKitty() {
 }
 
 async function deleteOffer(id) {
-  let res;
   try {
-    res = await instance.methods.removeOffer(id).send();
+    await instance.methods.removeOffer(id).send();    
   } catch (err) {
     console.log(err);
   }
 
 }
 
-async function buyKitten(id, price) {
-  let res;
+async function sellCat(id) {  
+  var price = $('#catPrice').val()
   var amount = web3.utils.toWei(price, "ether")
   try {
-    res = await instance.methods.buyKitty(id).send({ value: amount });
-    log(res)
+    await instance.methods.setOffer(amount,id).send();
   } catch (err) {
     console.log(err);
   }
+}
 
+async function buyKitten(id, price) {
+  var amount = web3.utils.toWei(price, "ether")
+  try {
+    await instance.methods.buyKitty(id).send({ value: amount });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function totalCats() {
   var cats = await instance.methods.totalSupply().call();
-  log(cats)
 }
 
-function displayKittyInfo(owner, kittyId, mumId, dadId, genes) {
-  $("kittytable").removeClass('hidden')
-}

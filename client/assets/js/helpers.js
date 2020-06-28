@@ -21,15 +21,10 @@ function get_variables() {
     return $_GET;
   }
 
-function alert_msg(content, type, final = false) {
+function alert_msg(content, type) {
     var str = '';
-    str += '<div class="alert alert-' + type + ' pr-2 fit-content" role="alert">' + content + '<button type="button" class="close ml-2" data-dismiss="alert" aria-label="Close"> <i class="far fa-times-circle"></i> </button></div>';
-    if(final == true){
-    $('.activeBox').append(str)
-        return true
-    }
+    str += '<div class="alert alert-' + type + ' fit-content mt-3" role="alert">' + content + '<button type="button" class="close ml-2" data-dismiss="alert" aria-label="Close"> <i class="far fa-times-circle"></i> </button></div>';    
     $('#message').html(str)    
-    disable_alert()
 }
 
 function log(data){

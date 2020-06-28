@@ -3,130 +3,155 @@
 // into the catalogue
 
 //Append each Cat card as a catalog
-function appendCat(dna, id,gen) {
+function appendCat(dna, id, gen) {
     //1 return DNA cat into readable string 
     var KittyDna = catDna(dna)
     //2 build the catBox into HTML
     catBox(id)
     //3 Render the cats CSS style depending on DNA string
     renderCat(KittyDna, id)
-    $('#catview'+id).attr('onclick','go_to("catDetails.html?catId='+id+'")')
+    $('#catview' + id).attr('onclick', 'go_to("catDetails.html?catId=' + id + '")')
     $('#catDNA' + id).html(`
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4></span>
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+ gen + `</h4></span>
     <br>
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna +`</h4></span>`)
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna + `</h4></span>`)
 }
 
 //Append cat for breeding
-function breedAppend(dna,id,gen,gender) {
+function breedAppend(dna, id, gen, gender) {
     //1 return DNA cat into readable string 
     var KittyDna = catDna(dna)
     //2 build the catBox into HTML    
-    catBox(id)    
+    catBox(id)
     //3 Render the cats CSS style depending on DNA string
-    renderCat(KittyDna,id)
-    $('#catDNA'+id).html(`
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4></span>
+    renderCat(KittyDna, id)
+    $('#catDNA' + id).html(`
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+ gen + `</h4></span>
     <br>
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna +`</h4></span>`)
-    
-    $('#catview'+id).attr('onclick','selectBreed("'+dna+'","'+id+'","'+gen+'","'+gender+'")')    
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna + `</h4></span>`)
+
+    $('#catview' + id).attr('onclick', 'selectBreed("' + dna + '","' + id + '","' + gen + '","' + gender + '")')
 }
 
-function selectBreed(dna,id,gen,gender) {
-    
+function selectBreed(dna, id, gen, gender) {
+
     var KittyDna = catDna(dna)
     //2 build the singleCat into HTML
     var body = catBody(gender)
     var Cattributes = cattributes(gender)
-    $('#cattributes'+gender).html(Cattributes)
-    $('#'+gender).html(body)    
+    $('#cattributes' + gender).html(Cattributes)
+    $('#' + gender).html(body)
     //3 Render the cats CSS style depending on DNA string
     renderCat(KittyDna, gender)
-    $('#'+gender).addClass('breedSelect')  
-    $('#'+gender).attr('data-catid',id)  
-    $('#'+gender).attr('onclick','breedKitties("'+gender+'")')    
-    $('#catDNA'+gender).html(`
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4><input class="hidden" id="`+gender+`Id" type="number" value=`+id+`></span>
+    $('#' + gender).addClass('breedSelect')
+    $('#' + gender).attr('data-catid', id)
+    $('#' + gender).attr('onclick', 'breedKitties("' + gender + '")')
+    $('#catDNA' + gender).html(`
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+ gen + `</h4><input class="hidden" id="` + gender + `Id" type="number" value=` + id + `></span>
     <br>
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna +`</h4></span>`)    
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna + `</h4></span>`)
     $('#catSelection').modal('hide')
-    removeSelection(id,gender)
+    removeSelection(id, gender)
     readyToBredd()
-} 
-
-function readyToBredd(){
-
-var mumId = $('#DameId').val()  
-var dadId = $('#SireId').val()  
-
-if(!empty(mumId) && !empty(dadId)){
-    $('#breed').css('filter','none')
-    $('#breed').prop('disabled',false)
-    $('#breed').attr('onclick','breed("'+dadId+'","'+mumId+'")')
-    return true
 }
-$('#breed').prop('disabled',true)
-$('#breed').css('filter',' grayscale()')
-return false
+
+function readyToBredd() {
+
+    var mumId = $('#DameId').val()
+    var dadId = $('#SireId').val()
+
+    if (!empty(mumId) && !empty(dadId)) {
+        $('#breed').css('filter', 'none')
+        $('#breed').prop('disabled', false)
+        $('#breed').attr('onclick', 'breed("' + dadId + '","' + mumId + '")')
+        return true
+    }
+    $('#breed').prop('disabled', true)
+    $('#breed').css('filter', ' grayscale()')
+    return false
 }
 
 //If user select a selected cat from any gender, its remove it from the selection box
-function removeSelection(id,gender){
-  
+function removeSelection(id, gender) {
+
     var selectionDiv = `<div align="center">
                                 <div class="egg">
                                 </div>
-                                <h4>Select a cat as `+gender+`</h4>
+                                <h4>Select a cat as `+ gender + `</h4>
                             </div>
                         </div>`
-  
-    if(gender =='Dame'){
+
+    if (gender == 'Dame') {
         var catData = $('#Sire').attr('data-catid')
-        if(catData == id){
-            $('#Sire').attr('data-catid',0)
-            $('#Sire').attr('onclick','breedKitties(this.id)')
+        if (catData == id) {
+            $('#Sire').attr('data-catid', 0)
+            $('#Sire').attr('onclick', 'breedKitties(this.id)')
             $('#Sire').html(selectionDiv)
-            $('#Sire').removeClass('breedSelect')  
-            $('#catDNASire').html('')            
+            $('#Sire').removeClass('breedSelect')
+            $('#catDNASire').html('')
         }
     }
-    if(gender =='Sire'){
+    if (gender == 'Sire') {
         var catData = $('#Dame').attr('data-catid')
-        if(catData == id){
-            $('#Dame').attr('data-catid',0)
-            $('#Dame').attr('onclick','breedKitties(this.id)')
+        if (catData == id) {
+            $('#Dame').attr('data-catid', 0)
+            $('#Dame').attr('onclick', 'breedKitties(this.id)')
             $('#Dame').html(selectionDiv)
-            $('#Dame').removeClass('breedSelect')  
+            $('#Dame').removeClass('breedSelect')
             $('#catDNADame').html('')
         }
     }
 }
 
-async function singleCat(dna,id,gen) {
-    
+async function singleCat(dna, id, gen) {
+
     var KittyDna = catDna(dna)
     //2 build the singleCat into HTML
     var body = catBody(id)
     var Cattributes = cattributes(id)
     $('#cattributes').html(Cattributes)
-    $('#singleCat').html(body)    
+    $('#singleCat').html(body)
     //3 Render the cats CSS style depending on DNA string
     renderCat(KittyDna, id)
     $('#catDNA').html(`
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+gen+`</h4></span>
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>GEN:</b>`+ gen + `</h4></span>
     <br>
-    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna +`</h4></span>`)
+    <span class="badge badge-light"><h4 class="tsp-2 m-0"><b>DNA:</b>`+ dna + `</h4></span>`)
     
+    await catOffer(id)
+}
+
+// Checks the Kitty on market situation
+async function catOffer(id) {
+
     //Checking if this cat is for Sale
     var offer = await checkOffer(id)
     var seller = offer.seller.toLocaleLowerCase()
-        if(offer.onsale == true && seller != user){       
-        $('#buyBox').removeClass('hidden')                 
-        $('#priceBtn').html('<b>'+offer.price+' ETH</b>')
-        $('#buyBtn').attr('onclick','buyKitten('+id+',"'+offer.price+'")')
+    if (offer.onsale == true && seller != user) {
+        $('#buyBox').removeClass('hidden')
+        $('#priceBtn').html('<b>' + offer.price + ' ETH</b>')
+        $('#buyBtn').attr('onclick', 'buyKitten(' + id + ',"' + offer.price + '")')
+    }
+    
+    var ownership = await catOwnership(id)
+    //If user owns the cat
+    if (ownership == true) {        
+        //If is not on sale
+        if (offer.onsale == false) {
+            $('#sellBox').removeClass('hidden')
+            $('#sellBtn').attr('onclick', 'sellCat(' + id + ')')
+        } else {
+            $('#sellBox').removeClass('hidden')
+            $('#cancelBox').removeClass('hidden')
+            $('#cancelBtn').attr('onclick', 'deleteOffer(' + id + ')')
+            $('#sellBtn').addClass('btn-success')
+            $('#sellBtn').html('<b>For sale at:</b>')
+            $('#catPrice').val(offer.price)
+            $('#catPrice').prop('readonly', true)
+        }
     }
 }
+
 
 //Apply cat CSS Styles from buidCat.js
 
@@ -169,17 +194,17 @@ function catDna(dnaStr) {
 //Cat HTML Div for catalogue
 function catBox(id) {
 
-    var catDiv = `<div class="col-lg-4 pointer fit-content" id="catview`+id+`">
+    var catDiv = `<div class="col-lg-4 pointer fit-content" id="catview` + id + `">
                  <div class="featureBox catDiv">
-                 `+catBody(id)+`                           
+                 `+ catBody(id) + `                           
                  </div>
                  <div class="dnaDiv" id="catDNA`+ id + `"></div>
-                 `+cattributes(id)+`
+                 `+ cattributes(id) + `
                 </div>`
-    var catView = $('#catview'+id)
-    if(!catView.length){
+    var catView = $('#catview' + id)
+    if (!catView.length) {
         $('#catsDiv').append(catDiv)
-    }   
+    }
 }
 
 
@@ -238,14 +263,14 @@ function catBody(id) {
     return single
 }
 
-function cattributes(id){
- 
+function cattributes(id) {
+
     var Cattributes = `<ul class="ml-5 cattributes">
-                            <li><span id="eyeName`+id+`"></span> eyes</li>
-                            <li><span id="decorationName`+id+`"></span> decoration</li>
-                            <li><span id="animationName`+id+`"></span></li>
-                        </ul>` 
+                            <li><span id="eyeName`+ id + `"></span> eyes</li>
+                            <li><span id="decorationName`+ id + `"></span> decoration</li>
+                            <li><span id="animationName`+ id + `"></span></li>
+                        </ul>`
     return Cattributes
-    
-  
+
+
 }
