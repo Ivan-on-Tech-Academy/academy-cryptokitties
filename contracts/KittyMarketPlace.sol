@@ -36,6 +36,9 @@ contract KittyMarketPlace is KittyOwnership {
     *   As the kitties will be in the market place we need to be able to transfert them
     *   We are checking if the user is owning the kitty inside the approve function
     */
+
+    approve(address(this), _tokenId);
+
     tokenIdToOffer[_tokenId].seller = msg.sender;
     tokenIdToOffer[_tokenId].price = _price;
     emit MarketTransaction("Create offer", msg.sender, _tokenId);
@@ -44,9 +47,14 @@ contract KittyMarketPlace is KittyOwnership {
   function removeOffer(uint256 _tokenId)
     public
   {
+    require(_owns(msg.sender, _tokenId), "The user doesn't own the token");
+
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
+
     delete tokenIdToOffer[_tokenId];
+    _deleteApproval(_tokenId)
+
     emit MarketTransaction("Remove offer", msg.sender, _tokenId);
   }
 
@@ -56,10 +64,13 @@ contract KittyMarketPlace is KittyOwnership {
   {
     Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
-    delete tokenIdToOffer[_tokenId];
     
-    _approve(_tokenId, msg.sender);
+    delete tokenIdToOffer[_tokenId];
+
+    
     transferFrom(offer.seller, msg.sender, _tokenId);
+
+
     offer.seller.transfer(msg.value);
     emit MarketTransaction("Buy", msg.sender, _tokenId);
   }
