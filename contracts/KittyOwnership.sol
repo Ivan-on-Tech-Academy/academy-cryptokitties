@@ -103,9 +103,8 @@ contract KittyOwnership is KittyFactory{
   )
       public
   {
-      require(_to != address(0));
-      require(_approvedFor(msg.sender, _tokenId));
-      require(_owns(_from, _tokenId));
+      require(_to != address(0), "Cannot send to addresss 0");
+      require(_approvedFor(msg.sender, _tokenId) || _owns(_from, _tokenId), "You need to be approved or owner");
 
       _transfer(_from, _to, _tokenId);
   }
