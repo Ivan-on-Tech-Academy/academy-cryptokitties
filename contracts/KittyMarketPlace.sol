@@ -53,7 +53,7 @@ contract KittyMarketPlace is KittyOwnership {
     require(offer.seller == msg.sender, "You should own the kitty to be able to remove this offer");
 
     delete tokenIdToOffer[_tokenId];
-    _deleteApproval(_tokenId)
+    _deleteApproval(_tokenId);
 
     emit MarketTransaction("Remove offer", msg.sender, _tokenId);
   }
