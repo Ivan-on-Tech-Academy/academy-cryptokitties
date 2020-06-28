@@ -67,7 +67,10 @@ contract KittyMarketPlace is KittyOwnership {
     
     delete tokenIdToOffer[_tokenId];
 
-    
+    /* TMP REMOVE THIS*/
+    _approve(_tokenId, msg.sender);
+
+
     transferFrom(offer.seller, msg.sender, _tokenId);
 
 
