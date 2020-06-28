@@ -3,7 +3,7 @@ const KittyMarketPlace = artifacts.require("KittyMarketPlace");
 
 module.exports = async (deployer, network, accounts) => {
   const ownerAddress = accounts[0];
-  const initialKittyPrice = web3.utils.toWei("0.0001", "ether")
+  const initialKittyPrice = web3.utils.toWei("0.05", "ether")
 
   // Deploy contracts
   await deployer.deploy(KittyCore, {from :ownerAddress});

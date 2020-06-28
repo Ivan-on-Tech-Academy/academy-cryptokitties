@@ -78,13 +78,14 @@ contract KittyMarketPlace is Ownable {
 
     /*
      * Create a new offer based for the given kittyId and price
-     * If the kittyId already has an offer, it will be replaced
      */
     function createOffer(uint256 _kittyId, uint256 _price) public {
         require(
             _ownsKitty(msg.sender, _kittyId),
             "You are not the owner of that kitty"
         );
+        require(_price > 0.009 ether, "Cat price should be greater than 0.01");
+        require(kittyIdToOffer[_kittyId].price == 0, "You can't sell twice the same offers ");
 
         _aquireKitty(msg.sender, _kittyId);
         Offer memory offer = Offer(msg.sender, _price);

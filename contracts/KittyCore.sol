@@ -46,6 +46,7 @@ contract KittyCore is Ownable, KittyOwnership {
   function Breeding(uint256 _dadId, uint256 _mumId) public {
       require(_owns(msg.sender, _dadId), "The user doesn't own the token");
       require(_owns(msg.sender, _mumId), "The user doesn't own the token");
+      require(_mumId != _dadId, "The cat can't reproduce himself");
 
       ( uint256 Dadgenes,,,,uint256 DadGeneration ) = getKitty(_dadId);
 
