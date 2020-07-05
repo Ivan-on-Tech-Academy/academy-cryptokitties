@@ -156,7 +156,7 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
   *
   */
 
-  function Breeding(bytes32 _requestId) public {
+  function Breeding (bytes32 _requestId) private {
 
     ( uint256 Dadgenes,,,,uint256 DadGeneration ) = getKitty(request[_requestId].dadId);
 
