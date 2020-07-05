@@ -37,17 +37,17 @@ contract KittyMarketPlace is KittyOwnership {
   }
 
 
-  function getAllTokenOnSale() public  returns(uint256[] memory listOfToken){
+  function getAllTokenOnSale() public view returns(uint256[] memory listOfToken){
     uint256 totalOffers = offers.length;
-    
+
     if (totalOffers == 0) {
         return new uint256[](0);
     } else {
-  
+
       uint256[] memory resultOfToken = new uint256[](totalOffers);
 
       uint256 offerId;
-  
+
       for (offerId = 0; offerId < totalOffers; offerId++) {
         if(offers[offerId].price != 0){
           resultOfToken[offerId] = offers[offerId].tokenId;
