@@ -1,6 +1,8 @@
+import "./utils/ERC721Contracts/ERC721.sol";
+
 pragma solidity ^0.5.0;
 
-contract KittyFactory {
+contract KittyFactory is ERC721 {
 
   /*
   *   A new cat is born
@@ -66,6 +68,10 @@ contract KittyFactory {
         uint256(_kitty.dadId),
         _kitty.genes
     );
+
+    // Creates the kitty 721 token
+    _mint (address(this), newKittenId);
+
 
     // This will assign ownership, and also emit the Transfer event as
     // per ERC721 draft

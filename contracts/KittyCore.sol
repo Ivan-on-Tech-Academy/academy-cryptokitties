@@ -68,7 +68,6 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
     keyHash = 0xced103054e349b8dfb51352f0f8fa9b5d20dde3d06f9f43cb2b85bc64b238205; // hard-coded for Ropsten
     fee = 10 ** 18;
 
-
     // We are creating the first kitty at index 0
     _createKitty(0, 0, 0, uint256(-1), address(0));
   }

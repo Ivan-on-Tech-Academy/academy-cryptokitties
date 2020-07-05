@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "./KittyFactory.sol";
 
+
 contract KittyOwnership is KittyFactory{
 
   string public constant name = "IvanKitties";
@@ -27,12 +28,12 @@ contract KittyOwnership is KittyFactory{
       bytes4(keccak256('transferFrom(address,address,uint256)')) ^
       bytes4(keccak256('tokensOfOwner(address)')) ^
       bytes4(keccak256('tokenMetadata(uint256,string)'));
-
+/*
   function supportsInterface(bytes4 _interfaceID) external pure returns (bool)
   {
       return ((_interfaceID == InterfaceSignature_ERC165) || (_interfaceID == InterfaceSignature_ERC721));
   }
-
+*/
   function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
       return kittyIndexToOwner[_tokenId] == _claimant;
   }
@@ -58,7 +59,7 @@ contract KittyOwnership is KittyFactory{
   function totalSupply() public view returns (uint) {
       return kitties.length - 1;
   }
-
+/*
   function balanceOf(address _owner) public view returns (uint256 count) {
       return ownershipTokenCount[_owner];
   }
@@ -110,7 +111,7 @@ contract KittyOwnership is KittyFactory{
 
       _transfer(_from, _to, _tokenId);
   }
-
+*/
   function tokensOfOwner(address _owner) public view returns(uint256[] memory ownerTokens) {
     uint256 tokenCount = balanceOf(_owner);
 
