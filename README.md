@@ -40,6 +40,14 @@ Once the migration has been done
 truffle console --network ropsten
 ```
 
+
+### Add Link tokens to KittyCore 
+
+It is requested 1 link token to call the oracle, make sure to get some using:
+
+https://ropsten.chain.link/
+
+
 ### run your local server
 
 ```
