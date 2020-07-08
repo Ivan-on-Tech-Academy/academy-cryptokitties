@@ -18,8 +18,10 @@ contract KittyTimer {
 
   using SafeMath for uint256;
 
+  // uint16 because of gen type in _createKitty()
+  uint16 constant specialGen = 65535;
 
-  uint256 specialGen = 65535;
+
   /*
   * We are setting a waiting time for the first (1st) pregnancy
   */
@@ -69,7 +71,7 @@ contract KittyTimer {
 
 
   modifier isTime (bytes32 _coupleId) {
-    require (coupleWaitingTime[_coupleId] == 0, "Not yet time");
+    require (now >= coupleWaitingTime[_coupleId], "Not yet time");
     _;
   }
 
@@ -160,6 +162,8 @@ contract KittyTimer {
 
     require (kittyEachCouple[_coupleId] >= 10, "Not 10th kitty");
 
+    kittyEachCouple[_coupleId] = 0; // After the special kitty we reset the counter
+
     _createKitty (
       _mumId,
       _dadId,
@@ -167,6 +171,8 @@ contract KittyTimer {
       _genes,
       msg.sender
     )
+
+
   }
 
 
