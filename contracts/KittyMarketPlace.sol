@@ -60,7 +60,7 @@ contract KittyMarketPlace is KittyOwnership {
   function setOffer(uint256 _price, uint256 _tokenId)
     public
   {
-  
+
     require(_price >= 0.01 ether, "Cat price should be at least 0.01");
     require(tokenIdToOffer[_tokenId].price == 0, "You can't sell twice the same offers ");
 
@@ -104,8 +104,9 @@ contract KittyMarketPlace is KittyOwnership {
     public
     payable
   {
-    Offer memory offer = tokenIdToOffer[_tokenId];
     require(msg.value == offer.price, "The price is not correct");
+    require(msg.sender != ownerOf(_tokenId), "Kitty belongs to you, remove the offer instead");
+    Offer memory offer = tokenIdToOffer[_tokenId];
 
     /* we delete the offer info */
     delete offers[tokenIdToOfferId[_tokenId]];
