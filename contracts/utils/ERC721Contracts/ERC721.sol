@@ -83,7 +83,7 @@ contract ERC721 is ERC165, IERC721 {
     function approve(address to, uint256 tokenId) public {
         address owner = ownerOf(tokenId);
         require(to != owner,"Approve failed - address to must be ! owner");
-        require(msg.sender == owner || isApprovedForAll(owner, msg.sender));
+        require(msg.sender == owner || isApprovedForAll(owner, msg.sender),"Approve failed");
 
         _tokenApprovals[tokenId] = to;
         emit Approval(owner, to, tokenId);
@@ -166,7 +166,7 @@ contract ERC721 is ERC165, IERC721 {
      */
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
         transferFrom(from, to, tokenId);
-        require(_checkOnERC721Received(from, to, tokenId, _data));
+        require(_checkOnERC721Received(from, to, tokenId, _data),"safeTransferFrom _> _checkOnERC721Received failed");
     }
 
     /**

@@ -60,11 +60,7 @@ contract KittyMarketPlace is KittyOwnership {
   function setOffer(uint256 _price, uint256 _tokenId)
     public
   {
-    /*
-    *   We give the contract the ability to transfer kitties
-    *   As the kitties will be in the market place we need to be able to transfert them
-    *   We are checking if the user is owning the kitty inside the approve function
-    */
+  
     require(_price >= 0.01 ether, "Cat price should be at least 0.01");
     require(tokenIdToOffer[_tokenId].price == 0, "You can't sell twice the same offers ");
 

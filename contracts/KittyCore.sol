@@ -69,7 +69,7 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
     fee = 10 ** 18;
 
     // We are creating the first kitty at index 0
-    _createKitty(0, 0, 0, uint256(-1), address(0));
+    _createKitty(0, 0, 0, uint256(-1), msg.sender);
   }
 
 
@@ -223,7 +223,6 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
 
     gen0Counter++;
 
-    // Gen0 have no owners they are own by the contract
     uint256 tokenId = _createKitty(0, 0, 0, _genes, msg.sender);
     setOffer(0.2 ether, tokenId);
   }
