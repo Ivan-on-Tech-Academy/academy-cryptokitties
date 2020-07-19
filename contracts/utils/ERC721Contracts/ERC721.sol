@@ -82,7 +82,7 @@ contract ERC721 is ERC165, IERC721 {
      */
     function approve(address to, uint256 tokenId) public {
         address owner = ownerOf(tokenId);
-        require(to != owner);
+        require(to != owner,"Approve failed - address to must be ! owner");
         require(msg.sender == owner || isApprovedForAll(owner, msg.sender));
 
         _tokenApprovals[tokenId] = to;

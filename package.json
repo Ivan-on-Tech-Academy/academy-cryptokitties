@@ -8,10 +8,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-   },
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.0.35"
+    "@truffle/hdwallet-provider": "^1.0.39",
+    "web3": "^1.2.11"
   }
 }

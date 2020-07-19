@@ -58,7 +58,7 @@ contract KittyFactory is ERC721 {
 
     // It's probably never going to happen, 4 billion cats is A LOT, but
     // let's just be 100% sure we never let this happen.
-    require(newKittenId == uint256(uint32(newKittenId)));
+    require(newKittenId == uint256(uint32(newKittenId)),"Testing catch error 0");
 
     // emit the birth event
     emit Birth(
