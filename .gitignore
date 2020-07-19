@@ -4,3 +4,4 @@ package-lock.json
 client/src/contracts
 .DS_Store
 build
+truffle-config.js
