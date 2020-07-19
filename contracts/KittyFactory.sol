@@ -72,12 +72,6 @@ contract KittyFactory is ERC721 {
     // Creates the kitty 721 token
     _mint (_owner, newKittenId);
 
-
-    // This will assign ownership, and also emit the Transfer event as
-    // per ERC721 draft
-    //approve(_owner,newKittenId);
-    //safeTransferFrom(address(this),_owner,newKittenId);
-
     return newKittenId;
   }
 
