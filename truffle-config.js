@@ -1,7 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const infuraApi = "52ecbbee2d864d84876707ac80137ef0";
+const infuraApi = "** Your infura Api **";
 
-const mnemonic = "grape venture toss era purchase park wash bargain chaos clock hen spatial";
+const mnemonic = "** Your mnemonic **";
 
 
 module.exports = {
