@@ -282,10 +282,6 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
   }
 
 
-
-
-
-
   /*
   * Set the address of the deployed VRFCoordinator you wish to interact with
   */

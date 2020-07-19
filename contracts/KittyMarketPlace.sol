@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 import "./KittyCore.sol";
 import "./utils/Ownable.sol";
-
+import "./utils/SafeMath.sol";
 /*
  * Market place to trade kitties (could **in theory** be used for any ERC721 token)
  * It needs an existing Kitty contract to interact with
@@ -11,6 +11,9 @@ import "./utils/Ownable.sol";
  */
 
 contract KittyMarketPlace is Ownable {
+
+    using SafeMath for uint256;
+    
     KittyCore private _kittyContract;
 
     struct Offer {
@@ -27,6 +30,13 @@ contract KittyMarketPlace is Ownable {
 
 
     mapping(uint256 => Offer) tokenIdToOffer;
+
+    /**
+     * Keeps track of the sellers balance.
+     * Once a kitty is sold, the seller balance increases.
+     * Seller will then be able to withdraw.
+     */
+    mapping(address => uint256) sellersBalance;
 
     function setKittyContract(address _kittyContractAddress) public onlyOwner {
       _kittyContract = KittyCore(_kittyContractAddress);
@@ -141,15 +151,22 @@ contract KittyMarketPlace is Ownable {
         delete tokenIdToOffer[_tokenId];
         offers[tokenIdToOffer[_tokenId].index].active = false;
 
-        // Transfer the funds to the seller
-        // TODO: make this logic pull instead of push
         if (offer.price > 0) {
-            offer.seller.transfer(offer.price);
+          sellersBalance[offer.seller] = sellersBalance[offer.seller].add(offer.price);
         }
 
         // Transfer ownership of the kitty
         _kittyContract.transferFrom(offer.seller, msg.sender, _tokenId);
 
         emit MarketTransaction("Buy", msg.sender, _tokenId);
+    }
+
+    /**
+     * Allows sellers to withdraw their funds
+    */
+    function withdraw (uint256 _amount) public {
+      require (sellersBalance[msg.sender] >= _amount,"Not enough balance");
+      sellersBalance[msg.sender] = sellersBalance[msg.sender].sub(_amount);
+      msg.sender.transfer(_amount);
     }
 }
