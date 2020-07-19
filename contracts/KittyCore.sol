@@ -1,5 +1,5 @@
 import "./utils/Ownable.sol";
-import "./KittyMarketPlace.sol";
+import "./KittyFactory.sol";
 
 /*
 * VRFConsumerBase required to call the oracle
@@ -10,9 +10,11 @@ import "./utils/link/VRFConsumerBase.sol"; /* https://docs.chain.link/docs/chain
 
 pragma solidity ^0.5.0;
 
-contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
+contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
 
   using SafeMath for uint256;
+
+
 
   uint256 public constant CREATION_LIMIT_GEN0 = 10;
 
@@ -217,7 +219,7 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
     );
   }
 
-
+  // All kitties gen0 created will be owned by msg.sender
   function createKittyGen0(uint256 _genes) public onlyOwner {
     require(gen0Counter < CREATION_LIMIT_GEN0,"Gen0 limit reached");
 
@@ -246,6 +248,55 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
     generation = uint256(kitty.generation);
     genes = kitty.genes;
   }
+
+  function tokensOfOwner(address _owner) public view returns(uint256[] memory ownerTokens) {
+    uint256 tokenCount = balanceOf(_owner);
+
+    if (tokenCount == 0) {
+        return new uint256[](0);
+    } else {
+        uint256[] memory result = new uint256[](tokenCount);
+        uint256 totalCats = totalSupply();
+        uint256 resultIndex = 0;
+
+        uint256 catId;
+
+        for (catId = 1; catId <= totalCats; catId++) {
+            if (kittyIndexToOwner[catId] == _owner) {
+                result[resultIndex] = catId;
+                resultIndex++;
+            }
+        }
+
+        return result;
+    }
+  }
+
+  function totalSupply() public view returns (uint) {
+      return kitties.length - 1;
+  }
+
+
+  function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
+      return kittyIndexToOwner[_tokenId] == _claimant;
+  }
+
+  function _approvedFor(address _claimant, uint256 _tokenId) internal view returns (bool) {
+      return kittyIndexToApproved[_tokenId] == _claimant;
+  }
+
+  function _approve(uint256 _tokenId, address _approved) internal {
+      kittyIndexToApproved[_tokenId] = _approved;
+  }
+
+  function _deleteApproval(uint256 _tokenId) internal {
+      require(_owns(msg.sender, _tokenId));
+      delete kittyIndexToApproved[_tokenId];
+  }
+
+
+
+
 
 
   /*

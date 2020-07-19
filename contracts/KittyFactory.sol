@@ -4,6 +4,12 @@ pragma solidity ^0.5.0;
 
 contract KittyFactory is ERC721 {
 
+  string public constant name = "IvanKitties";
+  string public constant symbol = "CK";
+
+  event Approval(address owner, address approved, uint256 tokenId);
+
+
   /*
   *   A new cat is born
   */

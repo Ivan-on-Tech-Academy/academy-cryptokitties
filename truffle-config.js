@@ -1,5 +1,5 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const infuraApi = "06cca59b44e0458fb8c53d43ddd0aabb";
+const infuraApi = "52ecbbee2d864d84876707ac80137ef0";
 
 const mnemonic = "grape venture toss era purchase park wash bargain chaos clock hen spatial";
 
