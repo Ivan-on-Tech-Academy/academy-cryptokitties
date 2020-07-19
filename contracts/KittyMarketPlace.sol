@@ -68,8 +68,6 @@ contract KittyMarketPlace is KittyOwnership {
     require(_price >= 0.01 ether, "Cat price should be at least 0.01");
     require(tokenIdToOffer[_tokenId].price == 0, "You can't sell twice the same offers ");
 
-    approve(address(this), _tokenId);
-
     Offer memory _offer = Offer({
       seller: msg.sender,
       price: _price,

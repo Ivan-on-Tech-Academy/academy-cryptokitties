@@ -59,59 +59,8 @@ contract KittyOwnership is KittyFactory{
   function totalSupply() public view returns (uint) {
       return kitties.length - 1;
   }
-/*
-  function balanceOf(address _owner) public view returns (uint256 count) {
-      return ownershipTokenCount[_owner];
-  }
 
-  function ownerOf(uint256 _tokenId)
-      external
-      view
-      returns (address owner)
-  {
-      owner = kittyIndexToOwner[_tokenId];
 
-      require(owner != address(0));
-  }
-
-  function approve(
-      address _to,
-      uint256 _tokenId
-  )
-      public
-  {
-      require(_owns(msg.sender, _tokenId));
-
-      _approve(_tokenId, _to);
-      emit Approval(msg.sender, _to, _tokenId);
-  }
-
-  function transfer(
-      address _to,
-      uint256 _tokenId
-  )
-      public
-  {
-      require(_to != address(0));
-      require(_owns(msg.sender, _tokenId));
-
-      _transfer(msg.sender, _to, _tokenId);
-  }
-
-  function transferFrom(
-      address _from,
-      address _to,
-      uint256 _tokenId
-  )
-      public
-  {
-      require(_to != address(0));
-      require(_approvedFor(msg.sender, _tokenId));
-      require(_owns(_from, _tokenId));
-
-      _transfer(_from, _to, _tokenId);
-  }
-*/
   function tokensOfOwner(address _owner) public view returns(uint256[] memory ownerTokens) {
     uint256 tokenCount = balanceOf(_owner);
 
