@@ -219,12 +219,11 @@ contract KittyCore is Ownable, KittyMarketPlace, VRFConsumerBase {
 
 
   function createKittyGen0(uint256 _genes) public onlyOwner {
-    require(gen0Counter < CREATION_LIMIT_GEN0);
+    require(gen0Counter < CREATION_LIMIT_GEN0,"Gen0 limit reached");
 
     gen0Counter++;
 
-    uint256 tokenId = _createKitty(0, 0, 0, _genes, msg.sender);
-    setOffer(0.2 ether, tokenId);
+    _createKitty(0, 0, 0, _genes, msg.sender);
   }
 
   function getKitty(uint256 _id)
