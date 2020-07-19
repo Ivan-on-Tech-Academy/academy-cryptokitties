@@ -113,9 +113,9 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
 
   function breed (uint256 _seed, uint256 _dadId, uint256 _mumId) public {
 
-    require(_owns(msg.sender, _dadId), "The user doesn't own the token");
+    require(ownerOf(_dadId) == msg.sender, "msg.sender ! own the dad");
 
-    require(_owns(msg.sender, _mumId), "The user doesn't own the token");
+    require(ownerOf(_mumId) == msg.sender, "msg.sender ! own the mum");
 
     require(_mumId != _dadId, "The cat can't reproduce himself");
 
@@ -276,21 +276,8 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
       return kitties.length - 1;
   }
 
-
-  function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
-      return kittyIndexToOwner[_tokenId] == _claimant;
-  }
-
-  function _approvedFor(address _claimant, uint256 _tokenId) internal view returns (bool) {
-      return kittyIndexToApproved[_tokenId] == _claimant;
-  }
-
-  function _approve(uint256 _tokenId, address _approved) internal {
-      kittyIndexToApproved[_tokenId] = _approved;
-  }
-
   function _deleteApproval(uint256 _tokenId) internal {
-      require(_owns(msg.sender, _tokenId));
+      require(ownerOf(_tokenId) == msg.sender, "msg.sender ! own the _tokenId");
       delete kittyIndexToApproved[_tokenId];
   }
 
