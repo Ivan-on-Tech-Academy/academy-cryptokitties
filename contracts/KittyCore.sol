@@ -1,16 +1,10 @@
 import "./utils/Ownable.sol";
 import "./KittyFactory.sol";
-
-/*
-* VRFConsumerBase required to call the oracle
-*/
-import "./utils/link/VRFConsumerBase.sol"; /* https://docs.chain.link/docs/chainlink-vrf */
-
-
+import "./utils/link/Randomizer.sol";
 
 pragma solidity ^0.5.0;
 
-contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
+contract KittyCore is KittyFactory, Ownable, Randomizer {
 
   using SafeMath for uint256;
 
@@ -21,40 +15,6 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
 
   // Counts the number of cats the contract owner has created.
   uint256 public gen0Counter;
-
-
-  /* Provided by the oracle (it's the public key against which randomness is generated) */
-  bytes32 internal keyHash;
-
-  /* The oracle's fee is set to 1 link  */
-  uint256 internal fee;
-
-
-  /*
-  * In struct 'requests' we save the data we need to call Breeding ()
-  * once the random number is returned by the oracle.
-  *
-  * In order to access request we use the bytes32 _requestId provided from getRandomNumber ()
-  */
-
-
-  struct Requests {
-
-    address requestor;
-    uint256 dadId;
-    uint256 mumId;
-    uint256 randomNumber;
-  }
-
-  mapping (bytes32 => Requests) internal request;
-
-  /* RequestRandomness is emitted after calling the oracle from KittyCore  */
-  event RequestRandomness(bytes32 indexed requestId,bytes32 keyHash,uint256 seed);
-
-
-  /* RequestRandomnessFulfilled is emitted once the random number is returned  */
-  event RequestRandomnessFulfilled(bytes32 indexed requestId,uint256 randomness);
-
 
 
   /*
@@ -75,34 +35,7 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
   }
 
 
-  function getRandomNumber (
-    address _requestor,
-    uint256 _userProvidedSeed,
-    uint256 _dadId,
-    uint256 _mumId
 
-  ) internal {
-
-    uint256 seed = uint256(keccak256(abi.encode(_userProvidedSeed, blockhash(block.number)))); // Hash user seed and blockhash
-
-    bytes32 requestId = requestRandomness(keyHash, fee, seed);
-
-    request[requestId].requestor = _requestor;
-    request[requestId].dadId = _dadId;
-    request[requestId].mumId = _mumId;
-
-    emit RequestRandomness(requestId, keyHash, seed);
-  }
-
-
-  function fulfillRandomness(bytes32 _requestId, uint256 _randomness) external {
-
-    request[_requestId].randomNumber = _randomness.mod(255);
-
-    emit RequestRandomnessFulfilled(_requestId, _randomness);
-
-    Breeding(_requestId);
-  }
 
 
   /*
@@ -217,6 +150,15 @@ contract KittyCore is KittyFactory, Ownable, VRFConsumerBase {
       geneKid,
       requestor
     );
+  }
+
+  function fulfillRandomness(bytes32 _requestId, uint256 _randomness) external {
+
+    request[_requestId].randomNumber = _randomness.mod(255);
+
+    emit RequestRandomnessFulfilled(_requestId, _randomness);
+
+    Breeding(_requestId);
   }
 
   // All kitties gen0 created will be owned by msg.sender
