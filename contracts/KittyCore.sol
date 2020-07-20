@@ -9,7 +9,6 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
   using SafeMath for uint256;
 
 
-
   uint256 public constant CREATION_LIMIT_GEN0 = 10;
 
 
@@ -21,7 +20,6 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
     _vrfCoordinator: 0xf720CF1B963e0e7bE9F58fd471EFa67e7bF00cfb
     _link:           0x20fE562d797A42Dcb3399062AE9546cd06f63280
   */
-
   constructor(address _vrfCoordinator, address _link)
   VRFConsumerBase(_vrfCoordinator, _link) public { // Refer to VRFConsumerBase for more info
 
@@ -35,15 +33,11 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
   }
 
 
-
-
-
   /*
   * breed must be used to trigger the oracle
   * getRandomNumber () is called
   * fulfillRandomness () calls Breeding() once the random number is created
   */
-
   function breed (uint256 _seed, uint256 _dadId, uint256 _mumId, bool _usingOracle) public {
 
     require(ownerOf(_dadId) == msg.sender, "msg.sender ! own the dad");
@@ -143,9 +137,10 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
       kidGen = MumGeneration + 1;
     }
 
-    /* Below declaration 'requestor'
-    * needed to avoid **too many nested var ** error
-    * when calling _createKitty
+    /**
+    * @dev address requestor needed to avoid **too many nested var ** error
+    *      when calling _createKitty.
+    *
     */
     address requestor = request[_requestId].requestor;
 
@@ -167,7 +162,9 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
     Breeding(_requestId);
   }
 
-  // All kitties gen0 created will be owned by msg.sender
+  /**
+  * @dev All kitties gen0 created will be owned by msg.sender.
+  */
   function createKittyGen0(uint256 _genes) public onlyOwner {
     require(gen0Counter < CREATION_LIMIT_GEN0,"Gen0 limit reached");
 

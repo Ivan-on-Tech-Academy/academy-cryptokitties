@@ -81,20 +81,4 @@ contract KittyFactory is ERC721 {
     return newKittenId;
   }
 
-  function _transfer(address _from, address _to, uint256 _tokenId) internal {
-
-    // Since the number of kittens is capped to 2^32 we can't overflow this
-    ownershipTokenCount[_to]++;
-    // transfer ownership
-    kittyIndexToOwner[_tokenId] = _to;
-
-    if (_from != address(0)) {
-        ownershipTokenCount[_from]--;
-
-        delete kittyIndexToApproved[_tokenId];
-    }
-
-    // Emit the transfer event.
-    emit Transfer(_from, _to, _tokenId);
-  }
 }
