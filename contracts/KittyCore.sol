@@ -44,7 +44,7 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
   * fulfillRandomness () calls Breeding() once the random number is created
   */
 
-  function breed (uint256 _seed, uint256 _dadId, uint256 _mumId) public {
+  function breed (uint256 _seed, uint256 _dadId, uint256 _mumId, bool _usingOracle) public {
 
     require(ownerOf(_dadId) == msg.sender, "msg.sender ! own the dad");
 
@@ -52,12 +52,18 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
 
     require(_mumId != _dadId, "The cat can't reproduce himself");
 
-    uint256 linkBalance = LINK.balanceOf(address(this));
-
-    require (linkBalance >= 10 ** 18, "Deposit 1 link token");
-
-    getRandomNumber(msg.sender, _seed,  _dadId,  _mumId);
-
+    if (_usingOracle == false) { // If _usingOracle param is missing == false
+      bytes32 fooParam = keccak256(abi.encodePacked(msg.sender, _seed));
+      request[fooParam].requestor = msg.sender;
+      request[fooParam].dadId = _dadId;
+      request[fooParam].mumId = _mumId;
+      request[fooParam].randomNumber = now % 255;
+      Breeding(fooParam);
+    } else {
+      uint256 linkBalance = LINK.balanceOf(address(this));
+      require (linkBalance >= 10 ** 18, "Deposit 1 link token");
+      getRandomNumber(msg.sender, _seed,  _dadId,  _mumId);
+    }
   }
 
 
