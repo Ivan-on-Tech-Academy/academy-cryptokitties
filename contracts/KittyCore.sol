@@ -151,6 +151,11 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
       geneKid,
       requestor
     );
+
+    /**
+    * @dev Because is not needed anymore, deleting struct content for _requestId
+    */
+    delete (request[_requestId]);
   }
 
   function fulfillRandomness(bytes32 _requestId, uint256 _randomness) external {

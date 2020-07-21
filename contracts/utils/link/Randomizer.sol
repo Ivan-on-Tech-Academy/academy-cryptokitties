@@ -47,9 +47,11 @@ contract Randomizer is VRFConsumerBase{
 
   ) internal {
 
-    uint256 seed = uint256(keccak256(abi.encode(_userProvidedSeed, blockhash(block.number)))); // Hash user seed and blockhash
+    uint256 seed = uint256(keccak256(abi.encode(_userProvidedSeed, blockhash(block.number)))); // Hash user seed and blockhash.
 
     bytes32 requestId = requestRandomness(keyHash, fee, seed);
+
+    require (request[requestId].requestor == address(0),"Colliding requestId - failed"); // Not probable but not impossible.
 
     request[requestId].requestor = _requestor;
     request[requestId].dadId = _dadId;
