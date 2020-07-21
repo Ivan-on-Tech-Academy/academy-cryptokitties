@@ -34,9 +34,11 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
 
 
   /*
-  * breed must be used to trigger the oracle
-  * getRandomNumber () is called
-  * fulfillRandomness () calls Breeding() once the random number is created
+  * @dev Generate new ERC721 token.
+  * @param _seed A random number required by the oracle.
+  * @param _dadId && _mumId 2* Erc721 owned by the same msg.sender.
+  * @notice getRandomNumber () is called is _usingOracle = true.
+  * @notice fulfillRandomness () will get the random number.
   */
   function breed (uint256 _seed, uint256 _dadId, uint256 _mumId, bool _usingOracle) public {
 
