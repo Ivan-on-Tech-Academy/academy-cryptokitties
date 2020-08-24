@@ -23,8 +23,6 @@ contract KittyCore is KittyFactory, Ownable, Randomizer {
   constructor(address _vrfCoordinator, address _link)
   VRFConsumerBase(_vrfCoordinator, _link) public { // Refer to VRFConsumerBase for more info
 
-    vrfCoordinator = _vrfCoordinator;
-    LINK = LinkTokenInterface(_link);
     keyHash = 0xced103054e349b8dfb51352f0f8fa9b5d20dde3d06f9f43cb2b85bc64b238205; // hard-coded for Ropsten
     fee = 10 ** 18;
 
