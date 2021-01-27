@@ -11,17 +11,42 @@ npm i
 touch .secret
 ```
 
-### start your local ganache
+### Register on Infura
+
+https://infura.io/register
+
+### Deploy on Ropsten
+
+Go to truffle-config.js and add your Infura api and your mnemonic
 
 ```
-ganache-cli --port 8545 --accounts 5  --mnemonic 'gesture rather obey video awake genuine patient base soon parrot upset lounge' --networkId 5777
+const infuraApi = "** Your Infura apy key **";
 ```
 
-### migrate the main contract to your local node
+```
+const mnemonic = "** Your mnemonic **";
+```
+
+
+### migrate the main contract to Ropsten
 
 ```
-truffle migrate --network ganache
+truffle migrate --reset --network ropsten
 ```
+
+Once the migration has been done
+
+```
+truffle console --network ropsten
+```
+
+
+### Add Link tokens to KittyCore 
+
+It is requested 1 link token to call the oracle, make sure to get some using:
+
+https://ropsten.chain.link/
+
 
 ### run your local server
 

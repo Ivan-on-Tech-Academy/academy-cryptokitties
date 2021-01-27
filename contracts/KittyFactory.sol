@@ -1,6 +1,14 @@
+import "./utils/ERC721Contracts/ERC721.sol";
+
 pragma solidity ^0.5.0;
 
-contract KittyFactory {
+contract KittyFactory is ERC721 {
+
+  string public constant name = "IvanKitties";
+  string public constant symbol = "CK";
+
+  event Approval(address owner, address approved, uint256 tokenId);
+
 
   /*
   *   A new cat is born
@@ -56,7 +64,7 @@ contract KittyFactory {
 
     // It's probably never going to happen, 4 billion cats is A LOT, but
     // let's just be 100% sure we never let this happen.
-    require(newKittenId == uint256(uint32(newKittenId)));
+    require(newKittenId == uint256(uint32(newKittenId)),"Testing catch error 0");
 
     // emit the birth event
     emit Birth(
@@ -67,26 +75,10 @@ contract KittyFactory {
         _kitty.genes
     );
 
-    // This will assign ownership, and also emit the Transfer event as
-    // per ERC721 draft
-    _transfer(address(0), _owner, newKittenId);
+    // Creates the kitty 721 token
+    _mint (_owner, newKittenId);
+
     return newKittenId;
   }
 
-  function _transfer(address _from, address _to, uint256 _tokenId) internal {
-
-    // Since the number of kittens is capped to 2^32 we can't overflow this
-    ownershipTokenCount[_to]++;
-    // transfer ownership
-    kittyIndexToOwner[_tokenId] = _to;
-
-    if (_from != address(0)) {
-        ownershipTokenCount[_from]--;
-
-        delete kittyIndexToApproved[_tokenId];
-    }
-
-    // Emit the transfer event.
-    emit Transfer(_from, _to, _tokenId);
-  }
 }
