@@ -171,8 +171,7 @@ function renderCat(dna, id) {
 //Splitting the cat DNA to use it in render
 
 function catDna(dnaStr) {
-
-
+    dnaStr = dnaStr.toString();
     var dna = {
         //Colors
         "headcolor": dnaStr.substring(0, 2),
